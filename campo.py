@@ -4,6 +4,7 @@ class Campo:
         self.num_righe = num_righe
         self.num_colonne = num_colonne
         self.campo = self.crea_campo()
+        self.navi = []
 
     def crea_campo(self):
         campo = []
@@ -70,3 +71,35 @@ class Campo:
                     riga[i] = ' '
 
         return '\n'.join([' '.join(riga) for riga in campo_copia])
+
+    def colpisci_campo(self, riga, colonna):
+        if self.campo[riga][colonna] == ' ':
+            self.campo[riga][colonna] = 'O'
+            return "Mancato"
+        elif self.campo[riga][colonna] == 'N':
+            self.campo[riga][colonna] = 'X'
+            nave_affondata = self.rimuovi_nave_affondata(riga, colonna)
+            if nave_affondata:
+                return f"Affondato! Hai affondato la nave {nave_affondata.nome}"
+            else:
+                return "Colpito"
+        else:
+            return "Hai già sparato in questa posizione"
+
+    def rimuovi_nave_affondata(self, riga, colonna):
+        for nave in self.navi:
+            if (nave.posizione.riga == riga and
+                    colonna >= nave.posizione.colonna and
+                    colonna < nave.posizione.colonna + nave.lunghezza):
+                # Verifica se la nave è affondata
+                for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
+                    if self.campo[riga][c] == 'N':
+                        return None  # La nave non è ancora affondata
+
+                # Rimuovi la nave dal campo e dalla lista delle navi
+                for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
+                    self.campo[riga][c] = 'X'
+                self.navi.remove(nave)
+                return nave
+
+        return None
