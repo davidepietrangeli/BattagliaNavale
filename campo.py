@@ -27,22 +27,36 @@ class Campo:
                 f"{riga[colonna]:<{colonna_widths[colonna]}}" for colonna in range(self.num_colonne + 1)) + "\n"
         return campo_str
 
+    @staticmethod
+    def get_lettera_colonna(colonna):
+        return chr(ord('A') + colonna - 1)
+
     def posiziona_navi(self, navi):
+        griglia = [[' ' for _ in range(self.num_colonne + 1)] for _ in range(self.num_righe + 1)]
+
+        # Inserisci gli indici delle colonne nella prima riga
+        griglia[0] = [' '] + [chr(i) for i in range(ord('A'), ord('A') + self.num_colonne)]
+
+        # Inserisci gli indici delle righe nella prima colonna
+        for i in range(1, self.num_righe + 1):
+            griglia[i][0] = str(i)
+
         for nave in navi:
             colonna = ord(nave.posizione.colonna.upper()) - ord('A') + 1
             riga = nave.posizione.riga
             orientamento = nave.orientamento.upper()
 
-            if orientamento == "Verticale":
+            if orientamento == "V":
                 for i in range(nave.lunghezza):
                     if riga + i <= self.num_righe:
-                        self.campo[riga + i][colonna] = nave.nome[0]
-            elif orientamento == "Orizzontale":
+                        griglia[riga + i][colonna] = nave.nome[0]
+            elif orientamento == "O":
                 for i in range(nave.lunghezza):
-                    if riga + i <= self.num_colonne:
-                        self.campo[riga][colonna + i] = nave.nome[0]
+                    if colonna + i <= self.num_colonne:
+                        griglia[riga][colonna + i] = nave.nome[0]
+
+        self.campo = griglia
 
     def aggiorna_campo(self):
         for riga in self.campo:
             print(" ".join(riga))
-

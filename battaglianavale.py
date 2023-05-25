@@ -25,7 +25,6 @@ if __name__ == '__main__':
     campo1 = Campo(num_righe, num_colonne)
     campo2 = Campo(num_righe, num_colonne)
     print(campo1)
-    print(campo2)
 
     # Creazione Navi da battaglia
     navi = [
@@ -43,8 +42,11 @@ if __name__ == '__main__':
 
     while not giocatore1_finito:
         for nome, lunghezza in navi:
-            posizione = input(f"Inserisci la posizione della nave {nome} di lunghezza ({lunghezza}): es: A3")
-            orientamento = input(f"Inserisci l'orientamento della nave {nome}: es: Orizzontale/Verticale")
+            posizione = input(f"Inserisci la posizione della nave {nome} di lunghezza {lunghezza}:\n(es: A3) ")
+            orientamento = input(f"Inserisci l'orientamento della nave {nome}:\n"
+                                 f"O: per orientarla orizzontalmente\n"
+                                 f"V: per orientarla verticalmente\n"
+                                 f"Inserisci la tua scelta (O/V): ")
 
             # Estrai colonna e riga delle coordinate
             colonna = posizione[0].upper()
@@ -58,7 +60,7 @@ if __name__ == '__main__':
 
             # Stampa il campo con la nave posizionata
             campo1.posiziona_navi(navi_campo1)
-            print(f"{giocatore1} - Campo:")
+            print(f"{giocatore1.nome} - Campo:")
             campo1.aggiorna_campo()
 
         risposta = input("Hai finito di posizionare le navi? (S/N): ")
@@ -70,6 +72,9 @@ if __name__ == '__main__':
     # Pulizia dello schermo
     os.system('cls' if os.name == 'nt' else 'clear')
 
+    # Stampa campo vuoto Giocatore 2
+    print(campo2)
+
     # Posizionamento delle Navi per il Giocatore 2
     print(f"{giocatore2.nome} - Fase di posizionamento delle Navi da battaglia:")
     giocatore2_finito = False
@@ -77,8 +82,11 @@ if __name__ == '__main__':
 
     while not giocatore2_finito:
         for nome, lunghezza in navi:
-            posizione = input(f"Inserisci la posizione della nave {nome} di lunghezza ({lunghezza}): es: A3")
-            orientamento = input(f"Inserisci l'orientamento della nave {nome}: es: Orizzontale/Verticale")
+            posizione = input(f"Inserisci la posizione della nave {nome} di lunghezza {lunghezza}:\n(es: A3) ")
+            orientamento = input(f"Inserisci l'orientamento della nave {nome}:\n"
+                                 f"O: per orientarla orizzontalmente\n"
+                                 f"V: per orientarla verticalmente\n"
+                                 f"Inserisci la tua scelta (O/V): ")
 
             # Estrai colonna e riga delle coordinate
             colonna = posizione[0].upper()
@@ -91,15 +99,15 @@ if __name__ == '__main__':
             navi_campo2.append(nave)
 
             # Stampa il campo con la nave posizionata
-            campo2.posiziona_navi(navi_campo1)
-            print(f"{giocatore2} - Campo:")
+            campo2.posiziona_navi(navi_campo2)
+            print(f"{giocatore2.nome} - Campo:")
             campo2.aggiorna_campo()
 
         risposta = input("Hai finito di posizionare le navi? (S/N): ")
         if risposta.lower() == 's':
             giocatore2_finito = True
 
-    campo2.posiziona_navi(navi_campo1)
+    campo2.posiziona_navi(navi_campo2)
 
     # Pulizia dello schermo
     os.system('cls' if os.name == 'nt' else 'clear')
