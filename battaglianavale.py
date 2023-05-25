@@ -131,3 +131,34 @@ if __name__ == '__main__':
 
     # Pulizia dello schermo
     os.system('cls' if os.name == 'nt' else 'clear')
+
+    # Creazione campo vuoto per non far vedere le navi all'avversario
+    campo_vuoto = campo1.campo_vuoto()
+
+    # Gioco
+    while True:
+        # Turno del Giocatore 1
+        print(f"{giocatore1.nome} è il tuo turno")
+        print("Campo:")
+        campo1.aggiorna_campo()
+        print("Campo dell'avversario:")
+        print(campo_vuoto)
+
+        # Richiedi all'utente di premere "Invio" per continuare
+        input("Premi Invio per passare al turno dell'avversario")
+
+        # Pulizia dello schermo
+        os.system('cls' if os.name == 'nt' else 'clear')
+
+        # Turno del Giocatore 1
+        print(f"{giocatore2.nome} è il tuo turno")
+        print("Campo:")
+        campo1.aggiorna_campo()
+        print("Campo dell'avversario")
+        print(campo_vuoto)
+
+        # Richiedi all'utente di premere "Invio" per continuare
+        input("Premi Invio per passare al turno dell'avversario")
+
+        # Pulizia dello schermo
+        os.system('cls' if os.name == 'nt' else 'clear')

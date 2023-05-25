@@ -60,3 +60,13 @@ class Campo:
     def aggiorna_campo(self):
         for riga in self.campo:
             print(" ".join(riga))
+
+    def campo_vuoto(self):
+        campo_copia = [riga.copy() for riga in self.campo]
+
+        for riga in campo_copia[1:]:
+            for i in range(1, len(riga)):
+                if riga[i] != ' ':
+                    riga[i] = ' '
+
+        return '\n'.join([' '.join(riga) for riga in campo_copia])
