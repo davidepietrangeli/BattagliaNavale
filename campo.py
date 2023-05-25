@@ -73,18 +73,17 @@ class Campo:
         return '\n'.join([' '.join(riga) for riga in campo_copia])
 
     def colpisci_campo(self, riga, colonna):
-        if self.campo[riga][colonna] == ' ':
+        if self.campo[riga][colonna] == 'O':
+            return "Hai già sparato in questa posizione"
+        elif self.campo[riga][colonna] == ' ':
             self.campo[riga][colonna] = 'O'
-            return "Mancato"
-        elif self.campo[riga][colonna] == 'N':
-            self.campo[riga][colonna] = 'X'
             nave_affondata = self.rimuovi_nave_affondata(riga, colonna)
             if nave_affondata:
                 return f"Affondato! Hai affondato la nave {nave_affondata.nome}"
             else:
                 return "Colpito"
         else:
-            return "Hai già sparato in questa posizione"
+            return "Mancato"
 
     def rimuovi_nave_affondata(self, riga, colonna):
         for nave in self.navi:

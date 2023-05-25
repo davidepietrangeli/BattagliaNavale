@@ -147,21 +147,29 @@ if __name__ == '__main__':
         # Sparo del Giocatore 1
         print(f"{giocatore1.nome}, Spara un colpo")
         riga_sparo = int(input("Inserisci la riga dove sparare: ")) - 1
-        colonna_sparo = int(input("Inserisci la colonna dove sparare: ")) - 1
-        colonna_sparo_lettera = campo2.get_lettera_colonna(colonna_sparo)
+        colonna_input = input("Inserisci la colonna dove sparare: ").upper()
+        if len(colonna_input) == 1 and 'A' <= colonna_input <= 'Z':
+            colonna = ord(colonna_input) - ord('A')
+            colonna_sparo = colonna
+        else:
+            print("Inserisci una lettera valida per la colonna.")
+            continue
 
-        risultato_sparo = campo2.colpisci_campo(riga_sparo, colonna_sparo_lettera)
-        print(risultato_sparo)
+        risultato_sparo = campo2.colpisci_campo(riga_sparo, colonna_sparo)
 
-        if risultato_sparo == "M":
+        if risultato_sparo == "Mancato":
             print("Colpo mancato!")
             # Passa al turno dell'avversario
-            break
-        elif risultato_sparo == "H":
+            input("Premi Invio per passare al turno dell'avversario")
+            os.system('cls' if os.name == 'nt' else 'clear')
+            continue
+        elif risultato_sparo == "Colpito":
             print("Colpo a segno!")
-            nave_affondata = campo2.rimuovi_nave_affondata(riga_sparo, colonna_sparo_lettera)
+            nave_affondata = campo2.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
             if nave_affondata is not None:
                 print(f"Nave {nave_affondata.nome} affondata!")
+        elif risultato_sparo == "Hai già sparato in questa posizione":
+            print("Hai già sparato in questa posizione. Scegli un'altra.")
         else:
             print("Errore: colpo non valido")
 
@@ -171,30 +179,43 @@ if __name__ == '__main__':
         # Pulizia dello schermo
         os.system('cls' if os.name == 'nt' else 'clear')
 
+#
+
         # Turno del Giocatore 2
         print(f"{giocatore2.nome} è il tuo turno")
         print("Campo:")
-        campo1.aggiorna_campo()
+        campo2.aggiorna_campo()
         print("Campo dell'avversario")
         print(campo1.campo_vuoto())
 
         # Sparo del Giocatore 2
         print(f"{giocatore2.nome}, Spara un colpo")
         riga_sparo = int(input("Inserisci la riga dove sparare: ")) - 1
-        colonna_sparo = int(input("Inserisci la colonna dove sparare: ")) - 1
-        colonna_sparo_lettera = campo1.get_lettera_colonna(colonna_sparo)
-        risultato_sparo = campo1.colpisci_campo(riga_sparo, colonna_sparo_lettera)
-        print(risultato_sparo)
+        colonna_input = input("Inserisci la colonna dove sparare: ").upper()
+        if len(colonna_input) == 1 and 'A' <= colonna_input <= 'Z':
+            colonna = ord(colonna_input) - ord('A')
+            colonna_sparo = colonna
+        else:
+            print("Inserisci una lettera valida per la colonna.")
+            continue
 
-        if risultato_sparo == "M":
+        risultato_sparo = campo1.colpisci_campo(riga_sparo, colonna_sparo)
+
+        if risultato_sparo == "Mancato":
             print("Colpo mancato!")
             # Passa al turno dell'avversario
-            break
-        elif risultato_sparo == "H":
+            input("Premi Invio per passare al turno dell'avversario")
+            os.system('cls' if os.name == 'nt' else 'clear')
+            continue
+        elif risultato_sparo == "Colpito":
             print("Colpo a segno!")
-            nave_affondata = campo1.rimuovi_nave_affondata(riga_sparo, colonna_sparo_lettera)
+            nave_affondata = campo2.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
             if nave_affondata is not None:
                 print(f"Nave {nave_affondata.nome} affondata!")
+        elif risultato_sparo == "Hai già sparato in questa posizione":
+            print("Hai già sparato in questa posizione. Scegli un'altra.")
+        else:
+            print("Errore: colpo non valido")
 
         # Richiedi all'utente di premere "Invio" per continuare
         input("Premi Invio per passare al turno dell'avversario")
