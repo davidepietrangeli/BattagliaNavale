@@ -43,10 +43,20 @@ if __name__ == '__main__':
     while not giocatore1_finito:
         for nome, lunghezza in navi:
             posizione = input(f"Inserisci la posizione della nave {nome} di lunghezza {lunghezza}:\n(es: A3) ")
-            orientamento = input(f"Inserisci l'orientamento della nave {nome}:\n"
-                                 f"O: per orientarla orizzontalmente\n"
-                                 f"V: per orientarla verticalmente\n"
-                                 f"Inserisci la tua scelta (O/V): ")
+
+            orientamento_valido = False
+
+            while not orientamento_valido:
+                orientamento = input(f"Inserisci l'orientamento della nave {nome}:\n"
+                                     f"O: per orientarla orizzontalmente\n"
+                                     f"V: per orientarla verticalmente\n"
+                                     f"Inserisci la tua scelta (O/V): ")
+                orientamento = orientamento.upper()
+
+                if orientamento == 'O' or orientamento == 'V':
+                    orientamento_valido = True
+                else:
+                    print("\nOrientamento non valido.\nInserisci l'orientamento corretto.\n")
 
             # Estrai colonna e riga delle coordinate
             colonna = posizione[0].upper()
@@ -83,10 +93,20 @@ if __name__ == '__main__':
     while not giocatore2_finito:
         for nome, lunghezza in navi:
             posizione = input(f"Inserisci la posizione della nave {nome} di lunghezza {lunghezza}:\n(es: A3) ")
-            orientamento = input(f"Inserisci l'orientamento della nave {nome}:\n"
-                                 f"O: per orientarla orizzontalmente\n"
-                                 f"V: per orientarla verticalmente\n"
-                                 f"Inserisci la tua scelta (O/V): ")
+
+            orientamento_valido = False
+
+            while not orientamento_valido:
+                orientamento = input(f"Inserisci l'orientamento della nave {nome}:\n"
+                                     f"O: per orientarla orizzontalmente\n"
+                                     f"V: per orientarla verticalmente\n"
+                                     f"Inserisci la tua scelta (O/V): ")
+                orientamento = orientamento.upper()
+
+                if orientamento == 'O' or orientamento == 'V':
+                    orientamento_valido = True
+                else:
+                    print("\nOrientamento non valido.\nInserisci l'orientamento corretto.\n")
 
             # Estrai colonna e riga delle coordinate
             colonna = posizione[0].upper()
