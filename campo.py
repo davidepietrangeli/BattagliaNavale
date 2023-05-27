@@ -62,28 +62,30 @@ class Campo:
         for riga in self.campo:
             print(" ".join(riga))
 
-    def campo_vuoto(self):
+    def campo_vuoto(self, colpi_sparati):
         campo_copia = [riga.copy() for riga in self.campo]
 
         for riga in campo_copia[1:]:
             for i in range(1, len(riga)):
-                if riga[i] != ' ':
+                if riga[i] != ' ' and (riga, i) not in colpi_sparati:
                     riga[i] = ' '
+                elif (riga, i) in colpi_sparati:
+                    riga[i] = '.'
 
         return '\n'.join([' '.join(riga) for riga in campo_copia])
 
     def colpisci_campo(self, riga, colonna):
         if self.campo[riga][colonna] == 'O':
             return "Hai già sparato in questa posizione"
-        elif self.campo[riga][colonna] == ' ':
-            self.campo[riga][colonna] = 'O'
+        elif self.campo[riga][colonna] == 'M':
+            return "Colpo mancato"
+        else:
+            self.campo[riga][colonna] = 'X'  # Segna il colpo a segno con 'X'
             nave_affondata = self.rimuovi_nave_affondata(riga, colonna)
             if nave_affondata:
                 return f"Affondato! Hai affondato la nave {nave_affondata.nome}"
             else:
-                return "Colpito"
-        else:
-            return "Mancato"
+                return "Colpito!"
 
     def rimuovi_nave_affondata(self, riga, colonna):
         for nave in self.navi:
