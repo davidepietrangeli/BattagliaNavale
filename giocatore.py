@@ -30,11 +30,15 @@ class Giocatore:
                 print(campo2)
                 # Sparo del Giocatore 1 (DA MODIFICARE)
                 print(f"{self.nome}, Spara un colpo")
-                riga_sparo = int(input("Inserisci la riga dove sparare: "))
-                colonna_input = input("Inserisci la colonna dove sparare: ").upper()
+                # Richiedo all'utente la posizione dove si vuole sparare
+                posizione_sparo = input("Inserisci la posizione dove sparare (es: A3): ")
+                # Assegno alla variabile la colonna del punto di sparo
+                colonna_sparo = posizione_sparo[0].upper()
+                # Estraggo la sotto stringa per convertirla in un intero assegnato alla variabile
+                riga_sparo = int(posizione_sparo[1:])
                 # Viene controllato se la colonna inserita è valida e viene calcolata la colonna corrispondente
-                if len(colonna_input) == 1 and 'A' <= colonna_input <= 'Z':
-                    colonna_sparo = ord(colonna_input) - ord('A') + 1
+                if len(colonna_sparo) == 1 and 'A' <= colonna_sparo <= 'Z':
+                    colonna_sparo = ord(colonna_sparo) - ord('A') + 1
                     # Viene effettuato il colpo sparato, utilizzando il metodo 'colpisci_campo' della classe Campo
                     risultato_sparo = campo2.colpisci_campo(riga_sparo, colonna_sparo)
                     print(risultato_sparo)
@@ -76,10 +80,16 @@ class Giocatore:
                 print(campo1)
                 # Sparo del Giocatore 2
                 print(f"{self.nome}, Spara un colpo")
-                riga_sparo = int(input("Inserisci la riga dove sparare: "))
-                colonna_input = input("Inserisci la colonna dove sparare: ")
-                if len(colonna_input) == 1 and 'A' <= colonna_input <= 'Z':
-                    colonna_sparo = ord(colonna_input) - ord('A') + 1
+                # Richiedo all'utente la posizione dove si vuole sparare
+                posizione_sparo = input("Inserisci la posizione dove sparare (es: A3): ")
+                # Assegno alla variabile la colonna del punto di sparo
+                colonna_sparo = posizione_sparo[0].upper()
+                # Estraggo la sotto stringa per convertirla in un intero assegnato alla variabile
+                riga_sparo = int(posizione_sparo[1:])
+                # Viene controllato se la colonna inserita è valida e viene calcolata la colonna corrispondente
+                if len(colonna_sparo) == 1 and 'A' <= colonna_sparo <= 'Z':
+                    colonna_sparo = ord(colonna_sparo) - ord('A') + 1
+                    # Viene effettuato il colpo sparato, utilizzando il metodo 'colpisci_campo' della classe Campo
                     risultato_sparo = campo1.colpisci_campo(riga_sparo, colonna_sparo)
                     print(risultato_sparo)
                     if risultato_sparo == "Colpo mancato":
