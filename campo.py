@@ -93,7 +93,6 @@ class Campo:
     def campo_vuoto(self, colpi_sparati):
         # Crea una copia del campo di gioco
         campo_copia = [riga.copy() for riga in self.campo]
-        # (IN FASE DI LAVORO E CORREZIONE)
         # Itera attraverso ogni riga, esclusa la prima
         for riga in campo_copia[1:]:
             # Per ogni cella controlla se contiene una nave vedendo se vi è un carattere diverso dallo spazio
@@ -102,23 +101,20 @@ class Campo:
                 if riga[i] != ' ' and (riga, i) not in colpi_sparati:
                     riga[i] = ' '
                 elif (riga, i) in colpi_sparati:
-                    riga[i] = '.'
+                    riga[i] = 'O'
         # Il metodo restituisce una stringa che rappresenta il campo di gioco aggiornato
         # Dove le navi non colpite sono indicate come spazi vuoti (' ')
-        # I colpi sparati ma mancati sono indicati come punti ('.')
+        # I colpi sparati ma mancati sono indicati: ('O')
         return '\n'.join([' '.join(riga) for riga in campo_copia])
 
     # Parametri: 'riga': La riga del campo di gioco in cui si desidera sparare
     #            'colonna': La colonna del campo di gioco in cui si desidera sparare
     # Metodo che restituisce una stringa che rappresenta l'esito del colpo sparato
-    def colpisci_campo(self, riga, colonna):  # DA MODIFICARE
+    def colpisci_campo(self, riga, colonna):
         # Controllo il contenuto della cella corrispondente alla riga e alla colonna specificata nel campo di gioco
         if self.campo[riga][colonna] == 'M':
             # Se la cella contiene 'M' viene restituito colpo mancato
             return "Colpo mancato"
-        elif self.campo[riga][colonna] == 'O':
-            # Se la cella contiene 'O' significa che il colpo è stato già sparato in quella posizione
-            return "Hai già sparato in questa posizione"
         else:
             # Altrimenti, se la cella contiene una nave, il colpo viene segnato come a segno
             self.campo[riga][colonna] = 'X'
@@ -139,7 +135,7 @@ class Campo:
     # Parametri: 'riga': La riga del campo di gioco in cui è stato colpito un segmento della nave
     #            'colonna': La colonna del campo di gioco in cui è stato colpito un segmento della nave
     # Metodo che rimuove l'oggetto nave dal campo di gioco quando viene affondata
-    def rimuovi_nave_affondata(self, riga, colonna):  # DA MODIFICARE
+    def rimuovi_nave_affondata(self, riga, colonna):
         # Iterazione attraverso la lista delle navi presenti sul campo di gioco
         for nave in self.navi:
             # Controllo se il colpo colpisce un segmento della nave sulla stessa riga e nell'intervallo delle colonne
@@ -149,8 +145,8 @@ class Campo:
                 # Verifico se la nave è affondata
                 for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
                     # Verifico ogni segmento della Nave
-                    if self.campo[riga][c] == 'N':
-                        # Se trovo almeno un 'N' la nave non è affondata e restituisco False
+                    if (riga, c) not in nave.posizionate:
+                        # Restituisco False se c'è ancora una posizione della nave che non è stata colpita
                         return False
                 for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
                     # Se affondata, rimuovo tutti i segmenti della nave e li sostituisco con 'X'
@@ -181,6 +177,12 @@ class Campo:
                     # Se la posizione contiene 'M' o 'X' la segnalazione rimane invariata
                     if riga[i] == 'M' or riga[i] == 'X':
                         continue
-                    # Altrimenti la posizione viene sostituita con un punto per indicare un colpo sparato
-                    riga[i] = '.'
+                    # Altrimenti se la cella è vuota, non contiene una nave, quindi nave mancata
+                    elif riga[i] == ' ':
+                        # Aggiungo 'O' che sta per nave mancata
+                        riga[i] = 'O'
+                    # Altrimenti se la cella non è vuota
+                    else:
+                        # Aggiungo 'X' che sta per nave colpita
+                        riga[i] = 'X'
         self.campo = campo_copia
