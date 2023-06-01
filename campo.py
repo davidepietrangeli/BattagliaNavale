@@ -155,30 +155,36 @@ class Campo:
             riga, colonna, _ = posizione
             self.colpisci_campo(riga, colonna)
 
-    # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore1
-    def campo1_solo_colpi(self, colpi_sparati_giocatore2):
-        # Itero attraverso ogni riga nella griglia del campo (self.campo)
-        for riga in self.campo:
-            # Creo una lista vuota per la riga modificata
-            riga_modificata = []
-            # Per ogni elemento nella riga
-            for elemento in riga:
-                # Se l'elemento è 'O' (colpo mancato) o 'X' (colpo su nave), lascio l'elemento invariato
-                # Altrimenti, sostituisco l'elemento con uno spazio vuoto
-                riga_modificata.append(elemento if elemento in colpi_sparati_giocatore2 else ' ')
-            # Stampo gli elementi della riga modificata separati da uno spazio
-            print(" ".join(riga_modificata))
-
-    # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore2
+    # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore 1
     def campo2_solo_colpi(self, colpi_sparati_giocatore1):
+        # Stampo la prima riga con gli indici di colonna come lettere
+        print(f"   {' '.join(chr(i) for i in range(ord('A'), ord('A') + self.num_colonne))}")
         # Itero attraverso ogni riga nella griglia del campo (self.campo)
-        for riga in self.campo:
+        for i, riga in enumerate(self.campo):
             # Creo una lista vuota per la riga modificata
             riga_modificata = []
             # Per ogni elemento nella riga
-            for elemento in riga:
-                # Se l'elemento è 'O' (colpo mancato) o 'X' (colpo su nave), lascio l'elemento invariato
+            for j, elemento in enumerate(riga):
+                # Se l'elemento è presente nella lista dei colpi sparati del Giocatore 1,
+                # lascio l'elemento invariato
                 # Altrimenti, sostituisco l'elemento con uno spazio vuoto
-                riga_modificata.append(elemento if elemento in colpi_sparati_giocatore1 else ' ')
-            # Stampo gli elementi della riga modificata separati da uno spazio
-            print(" ".join(riga_modificata))
+                riga_modificata.append(elemento if (i, j) in colpi_sparati_giocatore1 else ' ')
+            # Stampo l'indice della riga seguito dagli elementi della riga modificata separati da uno spazio
+            print(f"{i} {' '.join(riga_modificata)}")
+
+    # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore 2
+    def campo1_solo_colpi(self, colpi_sparati_giocatore2):
+        # Stampo la prima riga con gli indici di colonna come lettere
+        print(f"   {' '.join(chr(i) for i in range(ord('A'), ord('A') + self.num_colonne))}")
+        # Itero attraverso ogni riga nella griglia del campo (self.campo)
+        for i, riga in enumerate(self.campo):
+            # Creo una lista vuota per la riga modificata
+            riga_modificata = []
+            # Per ogni elemento nella riga
+            for j, elemento in enumerate(riga):
+                # Se l'elemento è presente nella lista dei colpi sparati del Giocatore 2,
+                # lascio l'elemento invariato
+                # Altrimenti, sostituisco l'elemento con uno spazio vuoto
+                riga_modificata.append(elemento if (i, j) in colpi_sparati_giocatore2 else ' ')
+            # Stampo l'indice della riga seguito dagli elementi della riga modificata separati da uno spazio
+            print(f"{i} {' '.join(riga_modificata)}")
