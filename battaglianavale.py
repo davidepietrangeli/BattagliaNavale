@@ -131,8 +131,8 @@ if __name__ == '__main__':
     colpi_sparati_giocatore1 = []
     colpi_sparati_giocatore2 = []
     # Richiamo del metodo 'svolgi_gioco' per il Giocatore 1
-    giocatore1.svolgi_gioco(campo1, campo2, colpi_sparati_giocatore1, colpi_sparati_giocatore2)
+    giocatore1.svolgi_gioco(giocatore1, giocatore2, campo1, campo2, colpi_sparati_giocatore1, colpi_sparati_giocatore2)
     # Pulizia dello schermo
     os.system('cls' if os.name == 'nt' else 'clear')
     # Richiamo del metodo 'svolgi_gioco' per il Giocatore 2
-    giocatore2.svolgi_gioco(campo2, campo1, colpi_sparati_giocatore2, colpi_sparati_giocatore1)
+    giocatore2.svolgi_gioco(giocatore1, giocatore2, campo2, campo1, colpi_sparati_giocatore2, colpi_sparati_giocatore1)
