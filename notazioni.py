@@ -1,5 +1,6 @@
 '''
 Controllare metodo 'posiziona_navi'
+Cambiare logica 'campo_aggiornato'
 
 METODO PRINCIPALE:
                 'svolgi_gioco':

@@ -6,15 +6,12 @@ class Giocatore:
     def __init__(self, nome):
         self.nome = nome  # nome del giocatore
         self.navi_affondate = []  # lista vuota che tiene traccia delle navi affondate dal giocatore durante il gioco
-        self.colpi_sparati = []  # lista vuota che tiene traccia dei colpi sparati dal giocatore durante il gioco
 
     # Metodo che viene utilizzato per gestire l'intero processo di gioco tra due giocatori
     # Il metodo non restituisce nulla, ma viene eseguito fino a quando non avviene la vittoria di uno dei giocatori
     #  Parametri: 'campo1': oggetto di tipo Campo che rappresenta il campo di gioco del primo giocatore
     #             'campo2': oggetto di tipo Campo che rappresenta il campo di gioco del secondo giocatore.
-    def svolgi_gioco(self, campo1, campo2):
-        colpi_sparati_giocatore1 = []  # Colpi sparati dal Giocatore 1
-        colpi_sparati_giocatore2 = []  # Colpi sparati dal Giocatore 2
+    def svolgi_gioco(self, campo1, campo2, colpi_sparati_giocatore1, colpi_sparati_giocatore2):
         # Viene controllato il turno attuale del giocatore
         turno_giocatore1 = True
         while True:

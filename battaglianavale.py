@@ -42,10 +42,10 @@ if __name__ == '__main__':
     navi_campo1 = []
     while not giocatore1_finito:
         for nome, lunghezza in navi:
-            # Richiedo all'utente di inserire la posizione della nave, rappresentata da una colonna e una riga
+            # Richiedo all'utente d'inserire la posizione della nave, rappresentata da una colonna e una riga
             posizione = input(f"Inserisci la posizione della nave {nome} di lunghezza {lunghezza}:\n(es: A3) ")
             orientamento_valido = False
-            # Richiedo all'utente di inserire l'orientamento della nave
+            # Richiedo all'utente d'inserire l'orientamento della nave
             while not orientamento_valido:
                 orientamento = input(f"Inserisci l'orientamento della nave {nome}:\n"
                                      f"O: per orientarla orizzontalmente\n"
@@ -88,10 +88,10 @@ if __name__ == '__main__':
     navi_campo2 = []
     while not giocatore2_finito:
         for nome, lunghezza in navi:
-            # Richiedo all'utente di inserire la posizione della nave, rappresentata da una colonna e una riga
+            # Richiedo all'utente d'inserire la posizione della nave, rappresentata da una colonna e una riga
             posizione = input(f"Inserisci la posizione della nave {nome} di lunghezza {lunghezza}:\n(es: A3) ")
             orientamento_valido = False
-            # Richiedo all'utente di inserire l'orientamento della nave
+            # Richiedo all'utente d'inserire l'orientamento della nave
             while not orientamento_valido:
                 orientamento = input(f"Inserisci l'orientamento della nave {nome}:\n"
                                      f"O: per orientarla orizzontalmente\n"
@@ -127,13 +127,12 @@ if __name__ == '__main__':
     # Pulizia dello schermo per non far vedere al Giocatore 1 il posizionamento delle navi da parte del Giocatore 2
     os.system('cls' if os.name == 'nt' else 'clear')
 
-    # Creo lista vuota per tenere traccia dei colpi sparati
-    colpi_sparati = []
-    # Creazione campo vuoto per non far vedere le navi all'avversario
-    campo_aggiornato = campo1.campo_aggiornato(colpi_sparati)
+    # Creo le liste separate per tenere traccia dei colpi sparati dai giocatori
+    colpi_sparati_giocatore1 = []
+    colpi_sparati_giocatore2 = []
     # Richiamo del metodo 'svolgi_gioco' per il Giocatore 1
-    giocatore1.svolgi_gioco(campo1, campo2)
+    giocatore1.svolgi_gioco(campo1, campo2, colpi_sparati_giocatore1, colpi_sparati_giocatore2)
     # Pulizia dello schermo
     os.system('cls' if os.name == 'nt' else 'clear')
     # Richiamo del metodo 'svolgi_gioco' per il Giocatore 2
-    giocatore2.svolgi_gioco(campo2, campo1)
+    giocatore2.svolgi_gioco(campo2, campo1, colpi_sparati_giocatore2, colpi_sparati_giocatore1)

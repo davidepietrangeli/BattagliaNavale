@@ -22,7 +22,7 @@ class Campo:
         campo.append(riga_superiore)
         # Viene eseguito un ciclo for per ogni riga del campo
         for riga in range(self.num_righe):
-            # Il primo elemento della lista è il numero della riga incrementato di 1 convertito in stringa
+            # Il primo elemento della lista è il numero della riga incrementato di uno convertito in stringa
             # Gli altri elementi della lista sono stringhe vuote rappresentanti le caselle vuote del campo
             riga_campo = [str(riga + 1)] + [''] * self.num_colonne
             # La lista 'riga_campo' viene aggiunta alla lista 'campo'
@@ -88,17 +88,18 @@ class Campo:
             # Per ogni riga stampa gli elementi separati da uno spazio
             print(" ".join(riga))
 
-    # Parametri: 'colpi_sparati': Una lista contenente le coordinate dei colpi sparati nel campo di gioco
+    # Parametri: 'colpi_sparati_giocatore1': Una lista contenente le coordinate dei colpi sparati dal giocatore1
+    #            'colpi_sparati_giocatore2': Una lista contenente le coordinate dei colpi sparati dal giocatore2
     # Metodo che restituisce una stringa che rappresenta il campo di gioco aggiornato
-    def campo_aggiornato(self, colpi_sparati):
+    def campo_aggiornato(self, colpi_sparati_giocatore1, colpi_sparati_giocatore2):
         # Crea una copia del campo di gioco
         campo_copia = [riga.copy() for riga in self.campo]
         # Itera attraverso ogni riga, esclusa la prima
         for riga in campo_copia[1:]:
             # Per ogni cella controlla se contiene una nave vedendo se vi è un carattere diverso dallo spazio
-            # Controlla se le coordinate non sono presenti nella lista colpi_sparati
+            # Controlla se le coordinate non sono presenti nelle due liste colpi_sparati_giocatore
             for i in range(1, len(riga)):
-                if riga[i] != ' ' and (riga, i) not in colpi_sparati:
+                if riga[i] != ' ' and (riga, i) not in colpi_sparati_giocatore1 and (riga, i) not in colpi_sparati_giocatore2:
                     riga[i] = ' '
                 elif (riga, i) in colpi_sparati:
                     riga[i] = 'O'
@@ -161,7 +162,7 @@ class Campo:
 
     # Parametri: 'colpi_sparati': una lista di tuple rappresentanti le coordinate dei colpi sparati
     # Metodo che aggiunge un punto dove viene sparato il colpo nel campo di gioco
-    def segno_colpo(self, colpi_sparati):
+    def segno_colpo(self, colpi_sparati_giocatore1, colpi_sparati_giocatore2):
         # Creo uno copia del campo di gioco
         campo_copia = [riga.copy() for riga in self.campo]
         # Itero attraverso la copia del campo, escludendo la prima riga
@@ -169,11 +170,24 @@ class Campo:
             # Itero per ciascuna riga attraverso le colonne escludendo la prima
             for i in range(1, len(riga)):
                 # Se la posizione non è vuota (diversa da uno spazio) e il colpo non è presente tra i colpi sparati
-                if riga[i] != ' ' and (riga, i) not in colpi_sparati:
+                if riga[i] != ' ' and (riga, i) not in colpi_sparati_giocatore1 and (riga, i) not in colpi_sparati_giocatore2:
                     # Sostituisco la posizione con uno spazio vuoto
                     riga[i] = ' '
-                # Se il colpo è presente tra i colpi sparati viene effettuato un controllo aggiuntivo
-                elif (riga, i) in colpi_sparati:
+                # Se il colpo è presente tra i colpi sparati del giocatore 1
+                elif (riga, i) in colpi_sparati_giocatore1:
+                    # Se la posizione contiene 'M' o 'X' la segnalazione rimane invariata
+                    if riga[i] == 'M' or riga[i] == 'X':
+                        continue
+                    # Altrimenti se la cella è vuota, non contiene una nave, quindi nave mancata
+                    elif riga[i] == ' ':
+                        # Aggiungo 'O' che sta per nave mancata
+                        riga[i] = 'O'
+                    # Altrimenti se la cella non è vuota
+                    else:
+                        # Aggiungo 'X' che sta per nave colpita
+                        riga[i] = 'X'
+                # Se il colpo è presente tra i colpi sparati del giocatore 2
+                elif (riga, i) in colpi_sparati_giocatore2:
                     # Se la posizione contiene 'M' o 'X' la segnalazione rimane invariata
                     if riga[i] == 'M' or riga[i] == 'X':
                         continue
