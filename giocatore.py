@@ -23,10 +23,10 @@ class Giocatore:
                 print(f"{self.nome} è il tuo turno")
                 print("Campo:")
                 # Aggiorna e mostra il campo dopo ogni turno del Giocatore 1
-                campo1.aggiorna_campo()
+                campo1.campo_pieno()
                 print("Campo dell'avversario:")
                 # Aggiorna e mostra il campo del Giocatore 2 con i colpi sparati dal Giocatore 1
-                campo2.aggiungi_segnalazione(colpi_sparati_giocatore1)
+                campo2.segno_colpo(colpi_sparati_giocatore1)
                 print(campo2)
                 # Sparo del Giocatore 1 (DA MODIFICARE)
                 print(f"{self.nome}, Spara un colpo")
@@ -62,8 +62,8 @@ class Giocatore:
                             print("Colpito!")
                     # Aggiunge il colpo sparato alla lista dei colpi sparati dal Giocatore 1
                     colpi_sparati_giocatore1.append((riga_sparo, colonna_sparo))
-                    # Segna il colpo nel campo2 utilizzando il metodo 'aggiungi_segnalazione'
-                    campo2.aggiungi_segnalazione(colpi_sparati_giocatore1)
+                    # Segna il colpo nel campo2 utilizzando il metodo 'segno_colpo'
+                    campo2.segno_colpo(colpi_sparati_giocatore1)
                     # Richiede all'utente di premere "Invio" per passare al turno dell'avversario
                     input("Premi Invio per passare al turno dell'avversario")
                     # Pulizia dello schermo
@@ -74,9 +74,9 @@ class Giocatore:
                 # Turno del Giocatore 2, vengono eseguite le stesse operazioni svolte dal Giocatore 1
                 print(f"{self.nome} è il tuo turno")
                 print("Campo:")
-                campo2.aggiorna_campo()  # Aggiorna il campo dopo ogni turno del Giocatore 1
+                campo2.campo_pieno()  # Aggiorna il campo dopo ogni turno del Giocatore 1
                 print("Campo dell'avversario:")
-                campo1.aggiungi_segnalazione(colpi_sparati_giocatore2)
+                campo1.segno_colpo(colpi_sparati_giocatore2)
                 print(campo1)
                 # Sparo del Giocatore 2
                 print(f"{self.nome}, Spara un colpo")
@@ -109,8 +109,8 @@ class Giocatore:
                             print("Colpito!")
                     # Aggiunge il colpo sparato alla lista dei colpi sparati dal Giocatore 1
                     colpi_sparati_giocatore2.append((riga_sparo, colonna_sparo))
-                    # Segna il colpo nel campo1 utilizzando il metodo 'aggiungi_segnalazione'
-                    campo1.aggiungi_segnalazione(riga_sparo, colonna_sparo, colpi_sparati_giocatore2)
+                    # Segna il colpo nel campo1 utilizzando il metodo 'segno_colpo'
+                    campo1.segno_colpo(riga_sparo, colonna_sparo, colpi_sparati_giocatore2)
                     # Richiede all'utente di premere "Invio" per passare al turno dell'avversario
                     input("Premi Invio per passare al turno dell'avversario")
                     # Pulizia dello schermo

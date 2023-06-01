@@ -82,7 +82,7 @@ class Campo:
     # Il metodo modifica lo stato interno dell'oggetto 'Campo' impostando il campo con le posizioni delle navi
 
     # Metodo che stampa il campo di gioco mostrando la disposizione delle navi e i colpi sparati
-    def aggiorna_campo(self):
+    def campo_pieno(self):
         # Itera attraverso ogni riga nella griglia del campo (self.campo)
         for riga in self.campo:
             # Per ogni riga stampa gli elementi separati da uno spazio
@@ -90,7 +90,7 @@ class Campo:
 
     # Parametri: 'colpi_sparati': Una lista contenente le coordinate dei colpi sparati nel campo di gioco
     # Metodo che restituisce una stringa che rappresenta il campo di gioco aggiornato
-    def campo_vuoto(self, colpi_sparati):
+    def campo_aggiornato(self, colpi_sparati):
         # Crea una copia del campo di gioco
         campo_copia = [riga.copy() for riga in self.campo]
         # Itera attraverso ogni riga, esclusa la prima
@@ -118,14 +118,14 @@ class Campo:
         else:
             # Altrimenti, se la cella contiene una nave, il colpo viene segnato come a segno
             self.campo[riga][colonna] = 'X'
-            # Tramite il metodo 'aggiungi_segnalazione' viene aggiunta la segnalazione 'X'
-            self.aggiungi_segnalazione([(riga, colonna, 'X')])
+            # Tramite il metodo 'segno_colpo' viene aggiunta la segnalazione 'X'
+            self.segno_colpo([(riga, colonna, 'X')])
             # Verifico che la nave sia stata affondata tramite il metodo 'rimuovi_nave_affondata'
             nave_affondata = self.rimuovi_nave_affondata(riga, colonna)
             # Se la nave è stata affondata
             if nave_affondata:
-                # Viene aggiornato il campo di gioco chiamando il metodo 'aggiorna_campo'
-                self.aggiorna_campo()
+                # Viene aggiornato il campo di gioco chiamando il metodo 'campo_pieno'
+                self.campo_pieno()
                 # Viene restituita una stringa che indica che la nave è stata affondata, fornendo il nome della nave
                 return f"Affondato! Hai affondato la nave {nave_affondata.nome}"
             else:
@@ -153,15 +153,15 @@ class Campo:
                     self.campo[riga][c] = 'X'
                 # Rimuovo la nave della lista delle navi presenti nel campo di gioco
                 self.navi.remove(nave)
-                # Chiamo il metodo 'aggiorna_campo' per aggiornare il campo dopo aver rimosso la nave affondata
-                self.aggiorna_campo()
+                # Chiamo il metodo 'campo_pieno' per aggiornare il campo dopo aver rimosso la nave affondata
+                self.campo_pieno()
                 return nave
         # Restituisco None se non è stata trovata alcuna nave
         return None
 
     # Parametri: 'colpi_sparati': una lista di tuple rappresentanti le coordinate dei colpi sparati
     # Metodo che aggiunge un punto dove viene sparato il colpo nel campo di gioco
-    def aggiungi_segnalazione(self, colpi_sparati):
+    def segno_colpo(self, colpi_sparati):
         # Creo uno copia del campo di gioco
         campo_copia = [riga.copy() for riga in self.campo]
         # Itero attraverso la copia del campo, escludendo la prima riga

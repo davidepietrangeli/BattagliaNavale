@@ -71,7 +71,7 @@ if __name__ == '__main__':
             campo1.posiziona_navi(navi_campo1)
             # Stampo il campo con la nave posizionata
             print(f"{giocatore1.nome} - Campo:")
-            campo1.aggiorna_campo()
+            campo1.campo_pieno()
         # Richiedo all'utente se ha finito di posizionare le navi
         risposta = input("Hai finito di posizionare le navi? (S/N): ")
         if risposta.lower() == 's':
@@ -117,7 +117,7 @@ if __name__ == '__main__':
             campo2.posiziona_navi(navi_campo2)
             # Stampo il campo con la nave posizionata
             print(f"{giocatore2.nome} - Campo:")
-            campo2.aggiorna_campo()
+            campo2.campo_pieno()
         # Richiedo all'utente se ha finito di posizionare le navi
         risposta = input("Hai finito di posizionare le navi? (S/N): ")
         if risposta.lower() == 's':
@@ -130,7 +130,7 @@ if __name__ == '__main__':
     # Creo lista vuota per tenere traccia dei colpi sparati
     colpi_sparati = []
     # Creazione campo vuoto per non far vedere le navi all'avversario
-    campo_vuoto = campo1.campo_vuoto(colpi_sparati)
+    campo_aggiornato = campo1.campo_aggiornato(colpi_sparati)
     # Richiamo del metodo 'svolgi_gioco' per il Giocatore 1
     giocatore1.svolgi_gioco(campo1, campo2)
     # Pulizia dello schermo
