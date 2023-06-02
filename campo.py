@@ -97,7 +97,7 @@ class Campo:
             # Segna la cella con 'O' per indicare colpo mancato
             self.campo[riga_sparo][colonna_sparo] = 'O'
             # Restituisce la stringa "Colpo Mancato"
-            return "Colpo Mancato"
+            return "Nave Mancata :("
         else:
             # Altrimenti c'è una nave nella cella e la segno con 'X'
             self.campo[riga_sparo][colonna_sparo] = 'X'
@@ -108,10 +108,10 @@ class Campo:
                 # Viene aggiornato il campo di gioco chiamando il metodo 'campo_pieno'
                 self.campo_pieno()
                 # Restituisce una stringa che indica che la nave è stata affondata, fornendo il nome della nave
-                return f"Affondato! Hai affondato la nave {nave_affondata.nome}"
+                return f"Affondata!"
             else:
                 # La nave è stata colpita ma non affondata
-                return "Colpito"
+                return "Hai colpito una nave!"
     # Restituisce una stringa che rappresenta l'esito del colpo sparato
 
     # Parametri: 'riga': La riga del campo di gioco in cui è stato colpito un segmento della nave
@@ -127,14 +127,14 @@ class Campo:
                 # Verifico se la nave è affondata
                 for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
                     # Verifico ogni segmento della Nave
-                    if (riga, c) not in nave.posizionate:
+                    if (riga, c) not in [(nave.posizione.riga, s) for s in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza)]:
                         # Restituisco False se c'è ancora una posizione della nave che non è stata colpita
                         return False
-                for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
-                    # Se affondata, rimuovo tutti i segmenti della nave e li sostituisco con 'X'
-                    self.campo[riga][c] = 'X'
                 # Rimuovo la nave della lista delle navi presenti nel campo di gioco
                 self.navi.remove(nave)
+                for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
+                    # Se affondata, rimuovo tutti i segmenti della nave e li sostituisco con 'X'
+                    self.campo[riga][c] = ' '
                 # Chiamo il metodo 'campo_pieno' per aggiornare il campo dopo aver rimosso la nave affondata
                 self.campo_pieno()
                 return nave
@@ -165,12 +165,16 @@ class Campo:
             riga_modificata = []
             # Per ogni elemento nella riga
             for j, elemento in enumerate(riga):
-                # Se l'elemento è presente nella lista dei colpi sparati del Giocatore 1,
-                # lascio l'elemento invariato
-                # Altrimenti, sostituisco l'elemento con uno spazio vuoto
-                riga_modificata.append(elemento if (i, j) in colpi_sparati_giocatore1 else ' ')
+                # Se j è uguale a 0, stampo l'indice della riga + 1
+                if j == 0:
+                    riga_modificata.append(f"{i + 1}")
+                else:
+                    # Se l'elemento è presente nella lista dei colpi sparati del Giocatore 1,
+                    # lascio l'elemento invariato
+                    # Altrimenti, sostituisco l'elemento con uno spazio vuoto
+                    riga_modificata.append(elemento if (i, j) in colpi_sparati_giocatore1 else ' ')
             # Stampo l'indice della riga seguito dagli elementi della riga modificata separati da uno spazio
-            print(f"{i} {' '.join(riga_modificata)}")
+            print(' '.join(riga_modificata))
 
     # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore 2
     def campo1_solo_colpi(self, colpi_sparati_giocatore2):
@@ -182,9 +186,13 @@ class Campo:
             riga_modificata = []
             # Per ogni elemento nella riga
             for j, elemento in enumerate(riga):
-                # Se l'elemento è presente nella lista dei colpi sparati del Giocatore 2,
-                # lascio l'elemento invariato
-                # Altrimenti, sostituisco l'elemento con uno spazio vuoto
-                riga_modificata.append(elemento if (i, j) in colpi_sparati_giocatore2 else ' ')
+                # Se j è uguale a 0, stampo l'indice della riga + 1
+                if j == 0:
+                    riga_modificata.append(f"{i + 1}")
+                else:
+                    # Se l'elemento è presente nella lista dei colpi sparati del Giocatore 1,
+                    # lascio l'elemento invariato
+                    # Altrimenti, sostituisco l'elemento con uno spazio vuoto
+                    riga_modificata.append(elemento if (i, j) in colpi_sparati_giocatore2 else ' ')
             # Stampo l'indice della riga seguito dagli elementi della riga modificata separati da uno spazio
-            print(f"{i} {' '.join(riga_modificata)}")
+            print(' '.join(riga_modificata))

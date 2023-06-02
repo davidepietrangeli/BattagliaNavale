@@ -1,5 +1,5 @@
 '''
-Controllare metodo 'posiziona_navi'
+creare metodo 'posiziona_navi' invece farlo nel main
 Cambiare logica 'campo_aggiornato'
 
 METODO PRINCIPALE:

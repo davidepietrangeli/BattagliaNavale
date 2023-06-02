@@ -12,7 +12,9 @@ class Giocatore:
     #  Parametri: 'giocatore1': viene passato il nome del giocatore1
     #             'giocatore2': viene passato il nome del giocatore2
     #             'campo1': oggetto di tipo Campo che rappresenta il campo di gioco del primo giocatore
-    #             'campo2': oggetto di tipo Campo che rappresenta il campo di gioco del secondo giocatore.
+    #             'campo2': oggetto di tipo Campo che rappresenta il campo di gioco del secondo giocatore
+    #             'colpi_sparati_giocatore1': parametro passato con la lista dei colpi sparati dal primo giocatore
+    #             'colpi_sparati_giocatore2': parametro passato con la lista dei colpi sparati dal secondo giocatore
     def svolgi_gioco(self, giocatore1, giocatore2, campo1, campo2, colpi_sparati_giocatore1, colpi_sparati_giocatore2):
         # Viene controllato il turno attuale del giocatore
         turno_giocatore1 = True
@@ -20,7 +22,7 @@ class Giocatore:
             if turno_giocatore1:
                 # Turno del Giocatore 1
                 print(f"{giocatore1.nome} è il tuo turno")
-                print("Campo:")
+                print("Questo è il tuo Campo:")
                 # Aggiorna e mostra il campo dopo ogni turno del Giocatore 1
                 campo1.campo_pieno()
                 print("Campo dell'avversario:")
@@ -43,27 +45,26 @@ class Giocatore:
                     colpi_sparati_giocatore1.append((riga_sparo, colonna_sparo, risultato_sparo))
                     print(risultato_sparo)
                     # Se il colpo è "Colpo mancato", si passa il turno al Giocatore 2
-                    if risultato_sparo == "Colpo mancato":
-                        print("Colpo mancato!")
+                    if risultato_sparo == "Nave Mancata :(":
                         turno_giocatore1 = False
                     # Se il colpo ha affondato una nave, viene rimossa la nave dal campo dell'avversario
-                    elif risultato_sparo.startswith("Affondato!"):
+                    elif risultato_sparo == "Affondata":
                         nave_affondata = campo2.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
-                        print(risultato_sparo)
                         if nave_affondata:
                             print(f"Nave {nave_affondata.nome} affondata!")
                             # Controlla se tutte le navi del Giocatore 2 sono state affondate
-                            if campo2.navi_rimaste() == 0:
+                            if len(campo2.navi) == 0:
                                 print(f"Tutte le navi di {campo2.giocatore.nome} sono state affondate!")
                                 print(f"Vittoria per {campo1.giocatore.nome}!")
                                 # Termina il gioco
                                 return
                         else:
-                            print("Colpito!")
+                            if risultato_sparo == "Hai colpito una nave!":
+                                turno_giocatore1 = True
                     # Segna il colpo nel campo2 utilizzando il metodo 'segno_colpo'
                     campo2.segno_colpo1(colpi_sparati_giocatore1)
-                    # Richiede all'utente di premere "Invio" per passare al turno dell'avversario
-                    input("Premi Invio per passare al turno dell'avversario")
+                    # Richiede all'utente di premere "Invio" per passare al turno successivo
+                    input("Premi INVIO per passare al turno successivo")
                     # Pulizia dello schermo
                     os.system('cls' if os.name == 'nt' else 'clear')
                 else:
@@ -71,7 +72,7 @@ class Giocatore:
             else:
                 # Turno del Giocatore 2
                 print(f"{giocatore2.nome} è il tuo turno")
-                print("Campo:")
+                print("Questo è il tuo Campo:")
                 # Aggiorna e mostra il campo dopo ogni turno del Giocatore 2
                 campo2.campo_pieno()
                 print("Campo dell'avversario:")
@@ -94,27 +95,26 @@ class Giocatore:
                     colpi_sparati_giocatore2.append((riga_sparo, colonna_sparo, risultato_sparo))
                     print(risultato_sparo)
                     # Se il colpo è "Colpo mancato", si passa il turno al Giocatore 1
-                    if risultato_sparo == "Colpo mancato":
-                        print("Colpo mancato!")
+                    if risultato_sparo == "Nave Mancata :(":
                         turno_giocatore1 = True
                     # Se il colpo ha affondato una nave, viene rimossa la nave dal campo dell'avversario
-                    elif risultato_sparo.startswith("Affondato!"):
+                    elif risultato_sparo == "Affondata":
                         nave_affondata = campo1.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
-                        print(risultato_sparo)
                         if nave_affondata:
                             print(f"Nave {nave_affondata.nome} affondata!")
                             # Controlla se tutte le navi del Giocatore 1 sono state affondate
-                            if campo1.navi_rimaste() == 0:
+                            if len(campo1.navi) == 0:
                                 print(f"Tutte le navi di {campo1.giocatore.nome} sono state affondate!")
                                 print(f"Vittoria per {campo2.giocatore.nome}!")
                                 # Termina il gioco
                                 return
                         else:
-                            print("Colpito!")
+                            if risultato_sparo == "Hai colpito una nave!":
+                                turno_giocatore1 = False
                     # Segna il colpo nel campo1 utilizzando il metodo 'segno_colpo'
                     campo1.segno_colpo2(colpi_sparati_giocatore2)
-                    # Richiede all'utente di premere "Invio" per passare al turno dell'avversario
-                    input("Premi Invio per passare al turno dell'avversario")
+                    # Richiede all'utente di premere "Invio" per passare al turno successivo
+                    input("Premi INVIO per passare al turno successivo")
                     # Pulizia dello schermo
                     os.system('cls' if os.name == 'nt' else 'clear')
                 else:
