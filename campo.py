@@ -101,6 +101,8 @@ class Campo:
         else:
             # Altrimenti c'è una nave nella cella e la segno con 'X'
             self.campo[riga_sparo][colonna_sparo] = 'X'
+            # La nave è stata colpita ma non affondata
+            result = "Hai colpito una nave!"
             # Controllo se la nave colpita è affondata richiamando il metodo 'rimuovi_nave_affondata'
             nave_affondata = self.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
             # Se la nave è affondata
@@ -108,37 +110,24 @@ class Campo:
                 # Viene aggiornato il campo di gioco chiamando il metodo 'campo_pieno'
                 self.campo_pieno()
                 # Restituisce una stringa che indica che la nave è stata affondata, fornendo il nome della nave
-                return f"Affondata!"
-            else:
-                # La nave è stata colpita ma non affondata
-                return "Hai colpito una nave!"
+                result = f"Affondata: {nave_affondata.nome}"
+            return result
     # Restituisce una stringa che rappresenta l'esito del colpo sparato
 
-    # Parametri: 'riga': La riga del campo di gioco in cui è stato colpito un segmento della nave
-    #            'colonna': La colonna del campo di gioco in cui è stato colpito un segmento della nave
+    # Parametri: 'riga_sparo': La riga del campo di gioco in cui si è sparato il colpo
+    #            'colonna_sparo': La colonna del campo di gioco in cui si è sparato il oolpo
     # Metodo che rimuove l'oggetto nave dal campo di gioco quando viene affondata
-    def rimuovi_nave_affondata(self, riga, colonna):
-        # Iterazione attraverso la lista delle navi presenti sul campo di gioco
+    def rimuovi_nave_affondata(self, riga_sparo, colonna_sparo):
+        # Itero attraverso tutte le navi presenti nella lista 'self.navi'
         for nave in self.navi:
-            # Controllo se il colpo colpisce un segmento della nave sulla stessa riga e nell'intervallo delle colonne
-            if (nave.posizione.riga == riga and
-                    colonna >= nave.posizione.colonna and
-                    colonna < nave.posizione.colonna + nave.lunghezza):
-                # Verifico se la nave è affondata
-                for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
-                    # Verifico ogni segmento della Nave
-                    if (riga, c) not in [(nave.posizione.riga, s) for s in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza)]:
-                        # Restituisco False se c'è ancora una posizione della nave che non è stata colpita
-                        return False
-                # Rimuovo la nave della lista delle navi presenti nel campo di gioco
+            # Verifico se tutte le celle corrispondenti alla sua posizione e lunghezza sul campo di gioco sono contrassegnate con 'X'
+            nave_affondata = all(self.campo[riga_sparo][colonna_sparo] == 'X' for colonna_sparo in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza))
+            if nave_affondata:
+                # Se la nave è affondata viene rimossa dalla lista 'self.navi' utilizzando il metodo 'remove'
                 self.navi.remove(nave)
-                for c in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
-                    # Se affondata, rimuovo tutti i segmenti della nave e li sostituisco con 'X'
-                    self.campo[riga][c] = ' '
-                # Chiamo il metodo 'campo_pieno' per aggiornare il campo dopo aver rimosso la nave affondata
+                # Aggiorno il campo da gioco chiamando il metodo 'campo_pieno'
                 self.campo_pieno()
                 return nave
-        # Restituisco None se non è stata trovata alcuna nave
         return None
 
     # Parametri: 'colpi_sparati_giocatore1': una lista di posizioni di colpi sparati dal Giocatore 1
@@ -153,6 +142,7 @@ class Campo:
         for riga_sparo, colonna_sparo, _ in colpi_sparati_giocatore2:
             self.colpisci_campo(riga_sparo, colonna_sparo)
 
+    # Parametri: 'colpi_sparati_giocatore1': una lista di posizioni di colpi sparati dal Giocatore 1
     # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore 1
     def campo2_solo_colpi(self, colpi_sparati_giocatore1):
         # Creazione del campo di gioco vuoto
@@ -167,6 +157,7 @@ class Campo:
         for riga in campo2_solo_colpi:
             print(" ".join(riga))
 
+    # Parametri: 'colpi_sparati_giocatore2': una lista di posizioni di colpi sparati dal Giocatore 2
     # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore 2
     def campo1_solo_colpi(self, colpi_sparati_giocatore2):
         # Creazione del campo di gioco vuoto

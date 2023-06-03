@@ -49,8 +49,11 @@ class Giocatore:
                         turno_giocatore1 = False
                         # Aggiorna e mostra il campo del Giocatore 2 con i colpi sparati dal Giocatore 1
                         campo2.campo2_solo_colpi(colpi_sparati_giocatore1)
-                    # Se il colpo ha affondato una nave, viene rimossa la nave dal campo dell'avversario
-                    elif risultato_sparo == "Affondata":
+                    elif risultato_sparo == "Hai colpito una nave!":
+                        # Aggiorna e mostra il campo del Giocatore 2 con i colpi sparati dal Giocatore 1
+                        campo2.campo2_solo_colpi(colpi_sparati_giocatore1)
+                        turno_giocatore1 = True
+                        # Controllo se la nave colpita è affondata richiamando il metodo 'rimuovi_nave_affondata'
                         nave_affondata = campo2.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
                         if nave_affondata:
                             print(f"Nave {nave_affondata.nome} affondata!")
@@ -60,8 +63,6 @@ class Giocatore:
                                 print(f"Vittoria per {campo1.giocatore.nome}!")
                                 # Termina il gioco
                                 return
-                    else:
-                        if risultato_sparo == "Hai colpito una nave!":
                             # Aggiorna e mostra il campo del Giocatore 2 con i colpi sparati dal Giocatore 1
                             campo2.campo2_solo_colpi(colpi_sparati_giocatore1)
                             turno_giocatore1 = True
@@ -100,11 +101,14 @@ class Giocatore:
                     print(risultato_sparo)
                     # Se il colpo è "Colpo mancato", si passa il turno al Giocatore 1
                     if risultato_sparo == "Nave Mancata :(":
+                        turno_giocatore1 = True
                         # Aggiorna e mostra il campo del Giocatore 1 con i colpi sparati dal Giocatore 2
                         campo1.campo1_solo_colpi(colpi_sparati_giocatore2)
-                        turno_giocatore1 = True
-                    # Se il colpo ha affondato una nave, viene rimossa la nave dal campo dell'avversario
-                    elif risultato_sparo == "Affondata":
+                    elif risultato_sparo == "Hai colpito una nave!":
+                        # Aggiorna e mostra il campo del Giocatore 1 con i colpi sparati dal Giocatore 2
+                        campo1.campo1_solo_colpi(colpi_sparati_giocatore2)
+                        turno_giocatore1 = False
+                        # Controllo se la nave colpita è affondata richiamando il metodo 'rimuovi_nave_affondata'
                         nave_affondata = campo1.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
                         if nave_affondata:
                             print(f"Nave {nave_affondata.nome} affondata!")
@@ -114,8 +118,6 @@ class Giocatore:
                                 print(f"Vittoria per {campo2.giocatore.nome}!")
                                 # Termina il gioco
                                 return
-                    else:
-                        if risultato_sparo == "Hai colpito una nave!":
                             # Aggiorna e mostra il campo del Giocatore 1 con i colpi sparati dal Giocatore 2
                             campo1.campo1_solo_colpi(colpi_sparati_giocatore2)
                             turno_giocatore1 = False

@@ -1,7 +1,6 @@
 '''
 creare metodo 'posiziona_navi' invece farlo nel main
-Cercare un modo per 'campo_solo_colpi' per non avere quella riga finale in piu
-Cercare di capire perche non mi stampa il colpo
+
 Verificare che rimuove le navi
 Verificare che mi riconosce la fine del gioco
 
