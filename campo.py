@@ -109,25 +109,26 @@ class Campo:
             if nave_affondata:
                 # Viene aggiornato il campo di gioco chiamando il metodo 'campo_pieno'
                 self.campo_pieno()
-                # Restituisce una stringa che indica che la nave è stata affondata, fornendo il nome della nave
-                result = f"Affondata: {nave_affondata.nome}"
             return result
     # Restituisce una stringa che rappresenta l'esito del colpo sparato
 
     # Parametri: 'riga_sparo': La riga del campo di gioco in cui si è sparato il colpo
-    #            'colonna_sparo': La colonna del campo di gioco in cui si è sparato il oolpo
     # Metodo che rimuove l'oggetto nave dal campo di gioco quando viene affondata
     def rimuovi_nave_affondata(self, riga_sparo, colonna_sparo):
         # Itero attraverso tutte le navi presenti nella lista 'self.navi'
         for nave in self.navi:
             # Verifico se tutte le celle corrispondenti alla sua posizione e lunghezza sul campo di gioco sono contrassegnate con 'X'
-            nave_affondata = all(self.campo[riga_sparo][colonna_sparo] == 'X' for colonna_sparo in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza))
+            nave_affondata = True
+            for colonna in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
+                if self.campo[riga_sparo][colonna_sparo] != 'X':
+                    nave_affondata = False
+                    break
             if nave_affondata:
                 # Se la nave è affondata viene rimossa dalla lista 'self.navi' utilizzando il metodo 'remove'
                 self.navi.remove(nave)
                 # Aggiorno il campo da gioco chiamando il metodo 'campo_pieno'
                 self.campo_pieno()
-                return nave
+                return nave_affondata
         return None
 
     # Parametri: 'colpi_sparati_giocatore1': una lista di posizioni di colpi sparati dal Giocatore 1

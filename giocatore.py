@@ -5,7 +5,7 @@ import os
 class Giocatore:
     def __init__(self, nome):
         self.nome = nome  # nome del giocatore
-        self.navi_affondate = []  # lista vuota che tiene traccia delle navi affondate dal giocatore durante il gioco
+        self.navi_affondate = []  # lista vuota delle navi affondate
 
     # Metodo che viene utilizzato per gestire l'intero processo di gioco tra due giocatori
     # Il metodo non restituisce nulla, ma viene eseguito fino a quando non avviene la vittoria di uno dei giocatori
