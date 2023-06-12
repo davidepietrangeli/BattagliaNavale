@@ -14,7 +14,7 @@ def crea_campo(righe, colonne, tipo_lista):
         while not inserimento_corretto:
             try:
                 riga_partenza = int(input(f'\nInserisci riga. Un numero da 1 a {righe}: '))
-                colonna_partenza = int(input(f'\nInserisci colonna. un numero da 1 a {colonne}: '))
+                colonna_partenza = int(input(f'\nInserisci colonna. Un numero da 1 a {colonne}: '))
             except ValueError:
                 print(f'\u001b[31m\nRiga e/o colonna non valida, riprova ancora!\033[0m')
                 continue
@@ -73,7 +73,7 @@ def controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_parten
     if colonna_partenza + lunghezza - 1 <= colonne:
         i = colonna_partenza - 1
         while i < colonna_partenza + lunghezza - 1 and not error:
-            if campo[colonna_partenza - 1][i] == 1:
+            if campo[riga_partenza - 1][i] == 1:
                 print("\u001b[31m\n\nErrore! Posizione già occupata da una nave\033[0m")
                 error = True
                 continue

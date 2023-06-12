@@ -40,7 +40,7 @@ def cambio_giocatore(colpo, giocatore, lista_navi1, lista_navi2, righe, colonne,
             print('\nSpara ancora!')
             colpo, fine_gioco, giocatore = sparo(lista_navi2, righe, colonne, campo_battaglia2, giocatore, fine_gioco)
         else:
-            player = 2
+            giocatore = 2
             print(f'\nPassa il computer a {player}')
             colpo, fine_gioco, giocatore = sparo(lista_navi1, righe, colonne, campo_battaglia1, giocatore, fine_gioco)
     else:
@@ -48,7 +48,7 @@ def cambio_giocatore(colpo, giocatore, lista_navi1, lista_navi2, righe, colonne,
             print(f'\nSpara ancora!')
             colpo, fine_gioco, player = sparo(lista_navi1, righe, colonne, campo_battaglia1, giocatore, fine_gioco)
         else:
-            player = 1
+            giocatore = 1
             print(f'\nPassa il computer a {player}')
             colpo, fine_gioco, giocatore = sparo(lista_navi2, righe, colonne, campo_battaglia2, giocatore, fine_gioco)
     return colpo, fine_gioco, giocatore

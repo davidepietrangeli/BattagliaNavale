@@ -42,8 +42,8 @@ def scegli_controlla_punto_sparo(righe, colonne, campo_battaglia):
     error = True
     while error:
         try:
-            riga_sparo = int(input("sparo_riga:\n"))
-            colonna_sparo = int(input("sparo_colonna:\n"))
+            riga_sparo = int(input("Inserisci la riga dove sparare:\n"))
+            colonna_sparo = int(input("Inserisci la colonna dove sparare:\n"))
             if not (controlla_punto_partenza(righe, colonne, riga_sparo, colonna_sparo)):
                 print("\u001b[31mIl punto non è dentro il campo, riprova!\033[0m")
             elif not (campo_battaglia[riga_sparo - 1][colonna_sparo - 1] == '-'):
