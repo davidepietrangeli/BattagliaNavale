@@ -14,7 +14,8 @@ def sparo(lista_navi, righe, colonne, campo_battaglia, giocatore, fine_gioco):
             campo_battaglia[riga_sparo - 1][colonna_sparo - 1] = 'X'
             if tipo_nave.Nave.nave_affondata(i):
                 if vittoria(lista_navi):
-                    print(f'\nIl giocatore {giocatore} ha vinto la partita')
+                    print(f'\n\n\n\n\n\n\n\n\n\n\nCOMPLIMENTI!'
+                          f'\n\nIl giocatore {giocatore} ha vinto la partita! :)')
                     fine_gioco = True
                 else:
                     print('\nHai colpito e affondato una nave!')
@@ -41,7 +42,7 @@ def cambio_giocatore(colpo, giocatore, lista_navi1, lista_navi2, righe, colonne,
             colpo, fine_gioco, giocatore = sparo(lista_navi2, righe, colonne, campo_battaglia2, giocatore, fine_gioco)
         else:
             giocatore = 2
-            print(f'\nPassa il computer a {player}')
+            print(f'\n\n\n\n\n\n\n\n\n\nPassa il computer al giocatore {giocatore}')
             colpo, fine_gioco, giocatore = sparo(lista_navi1, righe, colonne, campo_battaglia1, giocatore, fine_gioco)
     else:
         if colpo and opzioni == 0:
@@ -49,7 +50,7 @@ def cambio_giocatore(colpo, giocatore, lista_navi1, lista_navi2, righe, colonne,
             colpo, fine_gioco, player = sparo(lista_navi1, righe, colonne, campo_battaglia1, giocatore, fine_gioco)
         else:
             giocatore = 1
-            print(f'\nPassa il computer a {player}')
+            print(f'\n\n\n\n\n\n\n\n\n\nPassa il computer al giocatore {giocatore}')
             colpo, fine_gioco, giocatore = sparo(lista_navi2, righe, colonne, campo_battaglia2, giocatore, fine_gioco)
     return colpo, fine_gioco, giocatore
 
