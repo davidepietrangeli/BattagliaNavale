@@ -1,174 +1,183 @@
-# Definizione della Classe 'Campo' che rappresenta il campo di gioco in cui vengono posizionate le navi
-class Campo:
-    # Metodo che si occupa di creare la rappresentazione iniziale del campo di gioco come una matrice
-    def __init__(self, num_righe, num_colonne):
-        self.num_righe = num_righe  # numero delle righe del campo, memorizzato come oggetto della classe Campo
-        self.num_colonne = num_colonne  # numero delle colonne del campo, memorizzato come oggetto della classe Campo
-        # Richiama il metodo 'crea_campo' per inizializzare il campo di gioco con una matrice vuota
-        self.campo = self.crea_campo()
-        # Viene inizializzata la lista navi come un elenco vuoto che conterrà le navi posizionate nel campo
-        self.navi = []
-        # Ogni volta che una nave viene posizionata, viene aggiunta a questa lista. Questa lista può essere utilizzata
-        # per verificare lo stato delle navi nel campo, contare il numero di navi rimaste o rimuovere una nave affondata
+# Import della libreria 'sys' per interagire con il sistema operativo e l'interprete
+import sys
+# Import dei file contenuti nel progetto globale
+import tipo_nave
+import utile
 
-    # Metodo che restituisce una rappresentazione testuale del campo di gioco
-    def crea_campo(self):
-        # Viene inizializzata una lista vuota chiamata campo, che conterrà tutte le righe del campo di gioco
-        campo = []
-        # Viene creata la prima riga del campo, che contiene le lettere delle colonne
-        # Viene aggiunto uno spazio vuoto come primo elemento della lista
-        riga_superiore = [' '] + [chr(i) for i in range(ord('A'), ord('A') + self.num_colonne)]
-        # La lista 'riga_superiore' viene aggiunta come prima riga alla lista 'campo'
-        campo.append(riga_superiore)
-        # Viene eseguito un ciclo for per ogni riga del campo
-        for riga in range(self.num_righe):
-            # Il primo elemento della lista è il numero della riga incrementato di uno convertito in stringa
-            # Gli altri elementi della lista sono stringhe vuote rappresentanti le caselle vuote del campo
-            riga_campo = [str(riga + 1)] + [''] * self.num_colonne
-            # La lista 'riga_campo' viene aggiunta alla lista 'campo'
-            campo.append(riga_campo)
-        #  la lista campo che rappresenta il campo di gioco completo viene restituita come risultato del metodo
-        return campo
 
-    # Metodo che viene chiamato senza la creazione di un'istanza dell'oggetto
-    def __str__(self):
-        # Viene inizializzata una stringa vuota chiamata che conterrà la rappresentazione del campo di gioco
-        campo_str = ""
-        # Viene calcolata la larghezza massima per ciascuna colonna del campo di gioco
-        # Viene creata una lista chiamata 'colonna_widths' che ha la lunghezza max di ogni elemento per ogni colonna
-        colonna_widths = [max(len(riga[colonna]) for riga in self.campo) for colonna in range(self.num_colonne + 1)]
-        # Viene eseguito un ciclo for per ogni riga nel campo di gioco
-        for riga in self.campo:
-            campo_str += " ".join(
-                f"{riga[colonna]:<{colonna_widths[colonna]}}" for colonna in range(self.num_colonne + 1)) + "\n"
-        # la stringa che rappresenta il campo di gioco formattato correttamente viene restituita come risultato
-        return campo_str
+# Metodo che crea il campo di gioco e svolge il posizionamento delle navi su di esso
+def crea_campo(righe, colonne, tipo_lista):
+    # Creo il campo di gioco come una matrice di righe x colonne inizializzata con zeri
+    campo = [[0] * colonne for _ in range(righe)]
+    # Creo lista vuota che conterrà le istanze delle navi posizionate
+    lista_navi = []
+    # Per ogni valore 'i' in 'tipo_lista' il metodo richiede all'utente l'inserimento delle coordinate e dell'orientamento
+    for i in tipo_lista:
+        # Stampo un messaggio all'utente specifico per il tipo di nave
+        utile.messaggio_utente(i)
+        inserimento_corretto = False
+        prove = 0
+        # Gestisco gli eventuali errori
+        while not inserimento_corretto:
+            try:
+                riga_partenza = int(input(f'\nInserisci riga. Un numero da 1 a {righe}: '))
+                colonna_partenza = int(input(f'\nInserisci colonna. Un numero da 1 a {colonne}: '))
+            except ValueError:
+                print(f'\u001b[31m\nRiga e/o colonna non valida, riprova ancora!\033[0m')
+                continue
+            if not utile.controlla_punto_partenza(righe, colonne, riga_partenza, colonna_partenza):
+                print('\u001b[31m\nErrore! Il punto di partenza dato non è valido. Prova ancora!\033[0m')
+                continue
+            orientamento = input('\nInserisci orientamento. Deve essere orizzontale o verticale: \033[0m')
+            if not utile.controllo_orientamento(orientamento):
+                print(
+                    '\u001b[31m\nErrore! Orientamento dato non valido. Prova ancora ponendo attenzione sulla correttezza lessicale'
+                    'la tua scelta\033[0m')
+                continue
 
-    @staticmethod
-    # Metodo che prende il parametro colonna, che rappresenta un numero intero
-    def get_lettera_colonna(colonna):
-        # Viene utilizzata la funzione 'chr' per convertire un numero intero in un carattere
-        # Viene restituita la lettera ottenuta convertendo il valore in un carattere
-        return chr(ord('A') + colonna - 1)
-    # Ad esempio, se si passa colonna = 1, il metodo restituirà 'A'
+            # Chiamo il metodo 'controllo_posizionamento_orizzontale_nave' per controllare se è possibile posizionare la nave
+            if orientamento == 'orizzontale':
+                error, coordinate = controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, i)
+                if not error:
+                    inserimento_corretto = True
+            # Chiamo il metodo 'controllo_posizionamento_verticale_nave' per controllare se è possibile posizionare la nave
+            else:
+                error, coordinate = controllo_posizionamento_verticale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, i)
+                if not error:
+                    inserimento_corretto = True
 
-    # Parametri: 'navi': Una lista di oggetti 'Nave' che rappresentano le navi da posizionare nel campo di gioco
-    # Metodo per posizionare le navi di un giocatore sul campo di gioco
-    def posiziona_navi(self, navi):
-        # Griglia vuota rappresentata come una lista di liste, inizializzando ogni elemento con uno spazio vuoto
-        griglia = [[' ' for _ in range(self.num_colonne + 1)] for _ in range(self.num_righe + 1)]
-        # Inserisce gli indici delle colonne nella prima riga
-        griglia[0] = [' '] + [chr(i) for i in range(ord('A'), ord('A') + self.num_colonne)]
-        # Inserisce gli indici delle righe nella prima colonna
-        for i in range(1, self.num_righe + 1):
-            griglia[i][0] = str(i)
-        # Per ogni nave presente nella lista navi, ho le informazioni sulla posizione, la lunghezza e l'orientamento
-        for nave in navi:
-            colonna = ord(nave.posizione.colonna.upper()) - ord('A') + 1
-            riga = nave.posizione.riga
-            orientamento = nave.orientamento.upper()
-            # Se l'orientamento è verticale ("V"), vengono impostati i simboli delle navi nelle celle corrispondenti
-            if orientamento == "V":
-                for i in range(nave.lunghezza):
-                    if riga + i <= self.num_righe:
-                        griglia[riga + i][colonna] = nave.nome[0]
-            # # Se l'orientamento è orizzontale ("O"), vengono impostati i simboli delle navi nelle celle corrispondenti
-            elif orientamento == "O":
-                for i in range(nave.lunghezza):
-                    if colonna + i <= self.num_colonne:
-                        griglia[riga][colonna + i] = nave.nome[0]
-        # Infine, la griglia creata viene assegnata all'attributo 'campo' dell'oggetto 'Campo'.
-        self.campo = griglia
-    # Il metodo modifica lo stato interno dell'oggetto 'Campo' impostando il campo con le posizioni delle navi
+            # Chiamo il metodo 'stampa_campo' per visualizzare il campo di gioco
+            stampa_campo(campo, righe, colonne)
 
-    # Metodo che stampa il campo di gioco mostrando la disposizione delle navi e i colpi sparati
-    def campo_pieno(self):
-        # Itera attraverso ogni riga nella griglia del campo (self.campo)
-        for riga in self.campo:
-            # Per ogni riga stampa gli elementi separati da uno spazio
-            print(" ".join(riga))
+            # Creo una condizione per la quale l'errore non può verificarsi più di tre volte
+            if not inserimento_corretto:
+                prove += 1
+                if prove > 3:
+                    print("\n"*30)
+                    print("\u001b[31mTroppi tentativi. Ricomincia il gioco"
+                          "campo\033[0m")
+                    sys.exit()
 
-    # Parametri: 'riga_sparo': La riga del campo di gioco in cui si desidera sparare
-    #            'colonna_sparo': La colonna del campo di gioco in cui si desidera sparare
-    # Metodo che analizza la posizione dove viene sparato il colpo
-    def colpisci_campo(self, riga_sparo, colonna_sparo):
-        # Verifico se c'è una cella vuota, in tal caso la nave non si trova in quella posizione
-        if self.campo[riga_sparo][colonna_sparo] == ' ':
-            # Segna la cella con 'O' per indicare colpo mancato
-            self.campo[riga_sparo][colonna_sparo] = 'O'
-            # Restituisce la stringa "Colpo Mancato"
-            return "Nave Mancata :("
-        else:
-            # Altrimenti c'è una nave nella cella e la segno con 'X'
-            self.campo[riga_sparo][colonna_sparo] = 'X'
-            # La nave è stata colpita ma non affondata
-            result = "Hai colpito una nave!"
-            # Controllo se la nave colpita è affondata richiamando il metodo 'rimuovi_nave_affondata'
-            nave_affondata = self.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
-            # Se la nave è affondata
-            if nave_affondata:
-                # Viene aggiornato il campo di gioco chiamando il metodo 'campo_pieno'
-                self.campo_pieno()
-            return result
-    # Restituisce una stringa che rappresenta l'esito del colpo sparato
+        # Creo l'istanza della nave corrispondente, in base al valore di 'i'
+        if i == 5:
+            nave = tipo_nave.Portaerei(orientamento, colonna_partenza, riga_partenza, coordinate)
+        elif i == 4:
+            nave = tipo_nave.Corazzata(orientamento, colonna_partenza, riga_partenza, coordinate)
+        elif i == 3:
+            nave = tipo_nave.Sottomarino(orientamento, colonna_partenza, riga_partenza, coordinate)
+        elif i == 2:
+            nave = tipo_nave.Cacciatorpediniere(orientamento, colonna_partenza, riga_partenza, coordinate)
+        elif i == 1:
+            nave = tipo_nave.Sommergibile(orientamento, colonna_partenza, riga_partenza, coordinate)
+        # Aggiungo l'istanza della nave alla lista 'lista_navi'
+        lista_navi.append(nave)
+    return campo, lista_navi
+# Metodo che restituisce il campo di gioco con la lista delle navi
 
-    # Parametri: 'riga_sparo': La riga del campo di gioco in cui si è sparato il colpo
-    # Metodo che rimuove l'oggetto nave dal campo di gioco quando viene affondata
-    def rimuovi_nave_affondata(self, riga_sparo, colonna_sparo):
-        # Itero attraverso tutte le navi presenti nella lista 'self.navi'
-        for nave in self.navi:
-            # Verifico se tutte le celle corrispondenti alla sua posizione e lunghezza sul campo di gioco sono contrassegnate con 'X'
-            nave_affondata = True
-            for colonna in range(nave.posizione.colonna, nave.posizione.colonna + nave.lunghezza):
-                if self.campo[riga_sparo][colonna_sparo] != 'X':
-                    nave_affondata = False
-                    break
-            if nave_affondata:
-                # Se la nave è affondata viene rimossa dalla lista 'self.navi' utilizzando il metodo 'remove'
-                self.navi.remove(nave)
-                # Aggiorno il campo da gioco chiamando il metodo 'campo_pieno'
-                self.campo_pieno()
-                return nave_affondata
-        return None
 
-    # Parametri: 'colpi_sparati_giocatore1': una lista di posizioni di colpi sparati dal Giocatore 1
-    # Metodo che aggiorna il campo di gioco contrassegnando i colpi sparati dal Giocatore 1
-    def segno_colpo1(self, colpi_sparati_giocatore1):
-        for riga_sparo, colonna_sparo, _ in colpi_sparati_giocatore1:
-            self.colpisci_campo(riga_sparo, colonna_sparo)
+# Metodo che stampa il campo di gioco rappresentato dalla matrice 'campo_gioco' con le dimensione specificate da 'righe' e 'colonne'
+def stampa_campo(campo_gioco, righe, colonne):
+    # Stampo l'intestazione del campo che va da 1 a 'colonne'
+    # Tramite la funzione 'join' concateno gli elementi di una lista in una stringa separata da spazi
+    print("\n  " + " ".join(str(x) for x in range(1, colonne + 1)))
+    # Itero su ogni riga del campo per stampare la riga corrispondente
+    for r in range(righe):
+        print(str(r + 1) + " " + " ".join(str(c) for c in campo_gioco[r]))
+    # Stampo riga vuota per migliorare la leggibilità del campo
+    print()
 
-    # Parametri: 'colpi_sparati_giocatore2': una lista di posizioni di colpi sparati dal Giocatore 2
-    # Metodo che aggiorna il campo di gioco contrassegnando i colpi sparati dal Giocatore 2
-    def segno_colpo2(self, colpi_sparati_giocatore2):
-        for riga_sparo, colonna_sparo, _ in colpi_sparati_giocatore2:
-            self.colpisci_campo(riga_sparo, colonna_sparo)
 
-    # Parametri: 'colpi_sparati_giocatore1': una lista di posizioni di colpi sparati dal Giocatore 1
-    # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore 1
-    def campo2_solo_colpi(self, colpi_sparati_giocatore1):
-        # Creazione del campo di gioco vuoto
-        campo2_solo_colpi = self.crea_campo()
-        # Aggiorna il campo di gioco con i colpi sparati dal Giocatore 1
-        for riga_sparo, colonna_sparo, risultato_sparo in colpi_sparati_giocatore1:
-            if risultato_sparo == "Nave Mancata :(":
-                campo2_solo_colpi[riga_sparo][colonna_sparo] = 'O'
-            elif risultato_sparo == "Hai colpito una nave!":
-                campo2_solo_colpi[riga_sparo][colonna_sparo] = 'X'
-        # Stampa il campo di gioco con solo i colpi sparati
-        for riga in campo2_solo_colpi:
-            print(" ".join(riga))
+# Metodo che verifica se è possibile posizionare una nave in modo orizzontale sul campo di gioco
+def controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, lunghezza):
+    error = False
+    if colonna_partenza + lunghezza - 1 <= colonne:
+        i = colonna_partenza - 1
+        while i < colonna_partenza + lunghezza - 1 and not error:
+            if campo[riga_partenza - 1][i] == 1:
+                print("\u001b[31m\n\nErrore! Posizione già occupata da una nave\033[0m")
+                error = True
+                continue
+            if riga_partenza == 1:
+                if campo[riga_partenza][i] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            if riga_partenza == righe:
+                if campo[riga_partenza - 2][i] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            if 1 < riga_partenza < righe:
+                if campo[riga_partenza][i] == 1 or campo[riga_partenza - 2][i] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            if colonna_partenza != 1:
+                if campo[riga_partenza - 1][colonna_partenza - 2] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            if colonna_partenza + lunghezza - 2 != colonne - 1:
+                if campo[riga_partenza - 1][colonna_partenza + lunghezza - 1] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            i = i + 1
+        if not error:
+            coordinate = []
+            for i in range(colonna_partenza - 1, colonna_partenza + lunghezza - 1):
+                campo[riga_partenza - 1][i] = 1
+                coordinate.append([riga_partenza, i + 1])
+            return error, coordinate
+    else:
+        error = True
+        print("\u001b[31m\n\nErrore! La nave è fuori dal campo\033[0m")
+    return error, None
 
-    # Parametri: 'colpi_sparati_giocatore2': una lista di posizioni di colpi sparati dal Giocatore 2
-    # Metodo che stampa il campo di gioco con solo i colpi sparati del Giocatore 2
-    def campo1_solo_colpi(self, colpi_sparati_giocatore2):
-        # Creazione del campo di gioco vuoto
-        campo1_solo_colpi = self.crea_campo()
-        # Aggiorna il campo di gioco con i colpi sparati dal Giocatore 2
-        for riga_sparo, colonna_sparo, risultato_sparo in colpi_sparati_giocatore2:
-            if risultato_sparo == "Nave Mancata :(":
-                campo1_solo_colpi[riga_sparo][colonna_sparo] = 'O'
-            elif risultato_sparo == "Hai colpito una nave!":
-                campo1_solo_colpi[riga_sparo][colonna_sparo] = 'X'
-        # Stampa il campo di gioco con solo i colpi sparati
-        for riga in campo1_solo_colpi:
-            print(" ".join(riga))
+
+# Metodo che verifica se è possibile posizionare una nave in modo verticale sul campo di gioco
+def controllo_posizionamento_verticale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, lunghezza):
+    error = False
+    if riga_partenza + lunghezza - 1 <= righe:
+        i = riga_partenza - 1
+        while i < riga_partenza + lunghezza - 1 and not error:
+            if campo[i][colonna_partenza - 1] == 1:
+                print("\u001b[31m\n\nErrore! Posizione già occupata da una nave\033[0m")
+                error = True
+                continue
+            if colonna_partenza == 1:
+                if campo[i][colonna_partenza] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            if colonna_partenza == colonne:
+                if campo[i][colonna_partenza - 2] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            if 1 < colonna_partenza < colonne:
+                if campo[i][colonna_partenza] == 1 or campo[i][colonna_partenza - 2] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            if riga_partenza != 1:
+                if campo[riga_partenza - 2][colonna_partenza - 1] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            if riga_partenza + lunghezza - 2 != righe - 1:
+                if campo[riga_partenza + lunghezza - 1][colonna_partenza - 1] == 1:
+                    print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
+                    error = True
+                    continue
+            i = i + 1
+        if not error:
+            coordinate = []
+            for i in range(riga_partenza - 1, riga_partenza + lunghezza - 1):
+                campo[i][colonna_partenza - 1] = 1
+                coordinate.append([i + 1, colonna_partenza])
+            return error, coordinate
+    else:
+        print("\u001b[31m\n\nErrore! La nave è fuori dal campo\033[0m")
+        error = True
+    return error, None

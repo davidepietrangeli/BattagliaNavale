@@ -1,131 +1,113 @@
-import os
+# Import della libreria 'sys' per interagire con il sistema operativo e l'interprete
+import sys
+# Import dei file contenuti nel progetto globale
+import tipo_nave
+import campo
+import utile
 
 
-# Definizione della Classe 'Giocatore' che rappresenta un giocatore all'interno del gioco
-class Giocatore:
-    def __init__(self, nome):
-        self.nome = nome  # nome del giocatore
-        self.navi_affondate = []  # lista vuota delle navi affondate
-
-    # Metodo che viene utilizzato per gestire l'intero processo di gioco tra due giocatori
-    # Il metodo non restituisce nulla, ma viene eseguito fino a quando non avviene la vittoria di uno dei giocatori
-    #  Parametri: 'giocatore1': viene passato il nome del giocatore1
-    #             'giocatore2': viene passato il nome del giocatore2
-    #             'campo1': oggetto di tipo Campo che rappresenta il campo di gioco del primo giocatore
-    #             'campo2': oggetto di tipo Campo che rappresenta il campo di gioco del secondo giocatore
-    #             'colpi_sparati_giocatore1': parametro passato con la lista dei colpi sparati dal primo giocatore
-    #             'colpi_sparati_giocatore2': parametro passato con la lista dei colpi sparati dal secondo giocatore
-    def svolgi_gioco(self, giocatore1, giocatore2, campo1, campo2, colpi_sparati_giocatore1, colpi_sparati_giocatore2):
-        # Viene controllato il turno attuale del giocatore
-        turno_giocatore1 = True
-        while True:
-            if turno_giocatore1:
-                # Turno del Giocatore 1
-                print(f"{giocatore1.nome} è il tuo turno")
-                print("Questo è il tuo Campo:")
-                # Aggiorna e mostra il campo dopo ogni turno del Giocatore 1
-                campo1.campo_pieno()
-                print("Campo dell'avversario:")
-                # Aggiorna e mostra il campo del Giocatore 2 con i colpi sparati dal Giocatore 1
-                campo2.campo2_solo_colpi(colpi_sparati_giocatore1)
-                # Sparo del Giocatore 1
-                print(f"{giocatore1.nome}, Spara un colpo")
-                # Richiedo all'utente la posizione dove si vuole sparare
-                posizione_sparo = input("Inserisci la posizione dove sparare (es: A3): ")
-                # Assegno alla variabile la colonna del punto di sparo
-                colonna_sparo = posizione_sparo[0].upper()
-                # Estraggo la sotto stringa per convertirla in un intero assegnato alla variabile
-                riga_sparo = int(posizione_sparo[1:])
-                # Viene controllato se la colonna inserita è valida e viene calcolata la colonna corrispondente
-                if len(colonna_sparo) == 1 and 'A' <= colonna_sparo <= 'Z':
-                    colonna_sparo = ord(colonna_sparo) - ord('A') + 1
-                    # Viene effettuato il colpo sparato, utilizzando il metodo 'colpisci_campo' della classe Campo
-                    risultato_sparo = campo2.colpisci_campo(riga_sparo, colonna_sparo)
-                    # Aggiungo la posizione di sparo ai colpi sparati dal Giocatore 1
-                    colpi_sparati_giocatore1.append((riga_sparo, colonna_sparo, risultato_sparo))
-                    print(risultato_sparo)
-                    # Se il colpo è "Colpo mancato", si passa il turno al Giocatore 2
-                    if risultato_sparo == "Nave Mancata :(":
-                        turno_giocatore1 = False
-                        # Aggiorna e mostra il campo del Giocatore 2 con i colpi sparati dal Giocatore 1
-                        campo2.campo2_solo_colpi(colpi_sparati_giocatore1)
-                    elif risultato_sparo == "Hai colpito una nave!":
-                        # Aggiorna e mostra il campo del Giocatore 2 con i colpi sparati dal Giocatore 1
-                        campo2.campo2_solo_colpi(colpi_sparati_giocatore1)
-                        turno_giocatore1 = True
-                        # Controllo se la nave colpita è affondata richiamando il metodo 'rimuovi_nave_affondata'
-                        nave_affondata = campo2.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
-                        if nave_affondata:
-                            print(f"Nave {nave_affondata.nome} affondata!")
-                            # Controlla se tutte le navi del Giocatore 2 sono state affondate
-                            if len(campo2.navi) == 0:
-                                print(f"Tutte le navi di {campo2.giocatore.nome} sono state affondate!")
-                                print(f"Vittoria per {campo1.giocatore.nome}!")
-                                # Termina il gioco
-                                return
-                            # Aggiorna e mostra il campo del Giocatore 2 con i colpi sparati dal Giocatore 1
-                            campo2.campo2_solo_colpi(colpi_sparati_giocatore1)
-                            turno_giocatore1 = True
-                    # Segna il colpo nel campo2 utilizzando il metodo 'segno_colpo'
-                    campo2.segno_colpo1(colpi_sparati_giocatore1)
-                    # Richiede all'utente di premere "Invio" per passare al turno successivo
-                    input("Premi INVIO per passare al turno successivo")
-                    # Pulizia dello schermo
-                    os.system('cls' if os.name == 'nt' else 'clear')
+# Parametri:
+#   'lista_navi': una lista che rappresenta le navi presenti nel gioco
+#   'righe', 'colonne': il numero di righe e colonne del campo di battaglia
+#   'campo_battaglia': il campo, in forma matriciale, in cui si svolge il gioco
+#   'giocatore': l'identificatore del giocatore che sta effettuando lo sparo
+#   'fine_gioco': una variabile booleana che indica se il gioco è terminato
+# Metodo che permette la funzione di sparo per un giocatore
+def sparo(lista_navi, righe, colonne, campo_battaglia, giocatore, fine_gioco):
+    colpo = False
+    # Stampo il campo di battaglia utilizzando il metodo 'stampa_campo' del modulo 'campo' con il campo di battaglia e le dimensioni fornite
+    campo.stampa_campo(campo_battaglia, righe, colonne)
+    # Utilizzo il metodo 'scegli_controlla_punto_sparo' del modulo 'utile' per ottenere le coordinate di un punto di sparo valido
+    riga_sparo, colonna_sparo = utile.scegli_controlla_punto_sparo(righe, colonne, campo_battaglia)
+    for i in lista_navi:
+        # Per ogni nave, verifico se la nave è stata colpita utilizzando il metodo 'nave_colpita'
+        if tipo_nave.Nave.nave_colpita(i, riga_sparo, colonna_sparo):
+            colpo = True
+            # Segno il punto di colpo nel campo di battaglia impostando l'elemento corrispondente a 'X'
+            campo_battaglia[riga_sparo - 1][colonna_sparo - 1] = 'X'
+            # Verifico se la nave è stata affondata utilizzando la funzione 'nave_affondata' della classe 'Nave'
+            if tipo_nave.Nave.nave_affondata(i):
+                #  Se la nave è affondata, verifico anche se la vittoria è stata raggiunta chiamando la funzione 'vittoria'
+                if vittoria(lista_navi):
+                    print(f'\n\n\n\n\n\n\n\n\n\n\nCOMPLIMENTI!'
+                          f'\n\nIl giocatore {giocatore} ha vinto la partita! :)')
+                    fine_gioco = True
                 else:
-                    print("Inserisci una lettera valida per la colonna.")
+                    print('\nHai colpito e affondato una nave!')
             else:
-                # Turno del Giocatore 2
-                print(f"{giocatore2.nome} è il tuo turno")
-                print("Questo è il tuo Campo:")
-                # Aggiorna e mostra il campo dopo ogni turno del Giocatore 2
-                campo2.campo_pieno()
-                print("Campo dell'avversario:")
-                # Aggiorna e mostra il campo del Giocatore 1 con i colpi sparati dal Giocatore 2
-                campo1.campo1_solo_colpi(colpi_sparati_giocatore2)
-                # Sparo del Giocatore 2
-                print(f"{giocatore2.nome}, Spara un colpo")
-                # Richiedo all'utente la posizione dove si vuole sparare
-                posizione_sparo = input("Inserisci la posizione dove sparare (es: A3): ")
-                # Assegno alla variabile la colonna del punto di sparo
-                colonna_sparo = posizione_sparo[0].upper()
-                # Estraggo la sotto stringa per convertirla in un intero assegnato alla variabile
-                riga_sparo = int(posizione_sparo[1:])
-                # Viene controllato se la colonna inserita è valida e viene calcolata la colonna corrispondente
-                if len(colonna_sparo) == 1 and 'A' <= colonna_sparo <= 'Z':
-                    colonna_sparo = ord(colonna_sparo) - ord('A') + 1
-                    # Viene effettuato il colpo sparato, utilizzando il metodo 'colpisci_campo' della classe Campo
-                    risultato_sparo = campo1.colpisci_campo(riga_sparo, colonna_sparo)
-                    # Aggiungo la posizione di sparo ai colpi sparati dal Giocatore 2
-                    colpi_sparati_giocatore2.append((riga_sparo, colonna_sparo, risultato_sparo))
-                    print(risultato_sparo)
-                    # Se il colpo è "Colpo mancato", si passa il turno al Giocatore 1
-                    if risultato_sparo == "Nave Mancata :(":
-                        turno_giocatore1 = True
-                        # Aggiorna e mostra il campo del Giocatore 1 con i colpi sparati dal Giocatore 2
-                        campo1.campo1_solo_colpi(colpi_sparati_giocatore2)
-                    elif risultato_sparo == "Hai colpito una nave!":
-                        # Aggiorna e mostra il campo del Giocatore 1 con i colpi sparati dal Giocatore 2
-                        campo1.campo1_solo_colpi(colpi_sparati_giocatore2)
-                        turno_giocatore1 = False
-                        # Controllo se la nave colpita è affondata richiamando il metodo 'rimuovi_nave_affondata'
-                        nave_affondata = campo1.rimuovi_nave_affondata(riga_sparo, colonna_sparo)
-                        if nave_affondata:
-                            print(f"Nave {nave_affondata.nome} affondata!")
-                            # Controlla se tutte le navi del Giocatore 1 sono state affondate
-                            if len(campo1.navi) == 0:
-                                print(f"Tutte le navi di {campo1.giocatore.nome} sono state affondate!")
-                                print(f"Vittoria per {campo2.giocatore.nome}!")
-                                # Termina il gioco
-                                return
-                            # Aggiorna e mostra il campo del Giocatore 1 con i colpi sparati dal Giocatore 2
-                            campo1.campo1_solo_colpi(colpi_sparati_giocatore2)
-                            turno_giocatore1 = False
-                    # Segna il colpo nel campo1 utilizzando il metodo 'segno_colpo'
-                    campo1.segno_colpo2(colpi_sparati_giocatore2)
-                    # Richiede all'utente di premere "Invio" per passare al turno successivo
-                    input("Premi INVIO per passare al turno successivo")
-                    # Pulizia dello schermo
-                    os.system('cls' if os.name == 'nt' else 'clear')
-                else:
-                    print("Inserisci una lettera valida per la colonna.")
+                print('\nNave colpita!')
+    if not colpo:
+        print('\nNave mancata!')
+        # Segno il punto nel campo di battaglia impostando l'elemento corrispondente a 'O'
+        campo_battaglia[riga_sparo - 1][colonna_sparo - 1] = 'O'
+    return colpo, fine_gioco, giocatore
+# Metodo che restituisce una tupla sull'esito del colpo, se il gioco è terminato e l'identificazione del giocatore corrente
+
+
+# Parametri:
+#   'lista_navi1, 'lista_navi2': le liste che rappresentano le navi del giocatore 1 e 2
+#   'righe', 'colonne': il numero di righe e colonne del campo di battaglia
+#   'opzioni': la variabile opzionale di gioco che può essere o 1 o 0
+#   'campo_battaglia1', 'campo_battaglia2': i campi di battaglia del giocatore 1 e 2
+# Metodo che gestisce l'inizio di gioco e l'iterazione dei turni tra i due giocatori
+def inizio_gioco(lista_navi1, lista_navi2, righe, colonne, opzioni, campo_battaglia1, campo_battaglia2):
+    print("\n\n\n\n\n\nGiocatore 1 inizia il gioco!")
+    # Chiamo il metodo 'sparo' con i parametri corrispondenti per consentire al Giocatore 1 di effettuare un colpo sul campo di battaglia del Giocatore 2
+    colpo, fine_gioco, giocatore = sparo(lista_navi2, righe, colonne, campo_battaglia2, 1, fine_gioco=False)
+    # Entro in un ciclo while che continua finché 'fine_gioco' è False
+    while not fine_gioco:
+        # Chiamo il metodo 'cambio_giocatore' con i parametri corrispondenti per gestire il cambio del giocatore corrente
+        colpo, fine_gioco, giocatore = cambio_giocatore(colpo, giocatore, lista_navi1, lista_navi2, righe, colonne, opzioni, campo_battaglia1, campo_battaglia2, fine_gioco)
+    sys.exit()
+
+
+# Parametri:
+#   'colpo': variabile booleana che indica se è stato effettuato un colpo
+#   'giocatore': identificatore del giocatore corrente
+#   'lista_navi1, 'lista_navi2': le liste che rappresentano le navi del giocatore 1 e 2
+#   'righe', 'colonne': il numero di righe e colonne del campo di battaglia
+#   'opzioni': la variabile opzionale di gioco che può essere o 1 o 0
+#   'campo_battaglia1', 'campo_battaglia2': i campi di battaglia del giocatore 1 e 2
+#   'fine_gioco': una variabile booleana che indica se il gioco è terminato
+# Metodo che gestisce il cambio turno tra i giocatori
+def cambio_giocatore(colpo, giocatore, lista_navi1, lista_navi2, righe, colonne, opzioni, campo_battaglia1, campo_battaglia2, fine_gioco):
+    if giocatore == 1:
+        if colpo and opzioni == 0:
+            print('\nSpara ancora!')
+            #  Chiamo il metodo 'sparo' per consentire al giocatore corrente di effettuare un colpo
+            colpo, fine_gioco, giocatore = sparo(lista_navi2, righe, colonne, campo_battaglia2, giocatore, fine_gioco)
+        else:
+            # Se le condizioni non sono state soddisfatte, significa che è il turno del giocatore 2
+            giocatore = 2
+            print(f'\n\n\n\n\n\n\n\n\n\nPassa il computer al giocatore {giocatore}')
+            #  Chiamo il metodo 'sparo' per consentire al giocatore 2 di effettuare un colpo
+            colpo, fine_gioco, giocatore = sparo(lista_navi1, righe, colonne, campo_battaglia1, giocatore, fine_gioco)
+    else:
+        if colpo and opzioni == 0:
+            print(f'\nSpara ancora!')
+            colpo, fine_gioco, player = sparo(lista_navi1, righe, colonne, campo_battaglia1, giocatore, fine_gioco)
+        else:
+            # Se le condizioni non sono state soddisfatte, significa che è il turno del giocatore 1
+            giocatore = 1
+            print(f'\n\n\n\n\n\n\n\n\n\nPassa il computer al giocatore {giocatore}')
+            #  Chiamo il metodo 'sparo' per consentire al giocatore 1 di effettuare un colpo
+            colpo, fine_gioco, giocatore = sparo(lista_navi2, righe, colonne, campo_battaglia2, giocatore, fine_gioco)
+    return colpo, fine_gioco, giocatore
+# Metodo che restituisce una tupla sull'esito del colpo, se il gioco è terminato e l'identificazione del giocatore corrente
+
+
+# Parametri:
+#   'lista_navi': una lista che rappresenta le navi presenti nel gioco
+# Metodo che sancisce la vittoria di un giocatore
+def vittoria(lista_navi):
+    j = 0
+    viva = False
+    while j < len(lista_navi) and not viva:
+        # Verifico se la nave nella posizione 'j' non è affondata utilizzando il metodo 'nave_affondata'
+        if not (tipo_nave.Nave.nave_affondata(lista_navi[j])):
+            # Se la nave non è affondata imposta il valore 'viva' a True
+            viva = True
+        j = j + 1
+    return not viva
+# Metodo che restituisce il valore negato di 'viva'
+# Se tutte le navi sono affondate, 'viva = False' e quindi il metodo restituirà 'True' che indicherà la vittoria
