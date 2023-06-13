@@ -1,16 +1,23 @@
+# Import della libreria 'sys' per interagire con il sistema operativo e l'interprete
 import sys
+# Import dei file contenuti nel progetto globale
 import tipo_nave
 import utile
 
 
+# Metodo che crea il campo di gioco e svolge il posizionamento delle navi su di esso
 def crea_campo(righe, colonne, tipo_lista):
+    # Creo il campo di gioco come una matrice di righe x colonne inizializzata con zeri
     campo = [[0] * colonne for _ in range(righe)]
+    # Creo lista vuota che conterrà le istanze delle navi posizionate
     lista_navi = []
+    # Per ogni valore 'i' in 'tipo_lista' il metodo richiede all'utente l'inserimento delle coordinate e dell'orientamento
     for i in tipo_lista:
+        # Stampo un messaggio all'utente specifico per il tipo di nave
         utile.messaggio_utente(i)
         inserimento_corretto = False
         prove = 0
-
+        # Gestisco gli eventuali errori
         while not inserimento_corretto:
             try:
                 riga_partenza = int(input(f'\nInserisci riga. Un numero da 1 a {righe}: '))
@@ -21,7 +28,6 @@ def crea_campo(righe, colonne, tipo_lista):
             if not utile.controlla_punto_partenza(righe, colonne, riga_partenza, colonna_partenza):
                 print('\u001b[31m\nErrore! Il punto di partenza dato non è valido. Prova ancora!\033[0m')
                 continue
-
             orientamento = input('\nInserisci orientamento. Deve essere orizzontale o verticale: \033[0m')
             if not utile.controllo_orientamento(orientamento):
                 print(
@@ -29,16 +35,21 @@ def crea_campo(righe, colonne, tipo_lista):
                     'la tua scelta\033[0m')
                 continue
 
+            # Chiamo il metodo 'controllo_posizionamento_orizzontale_nave' per controllare se è possibile posizionare la nave
             if orientamento == 'orizzontale':
                 error, coordinate = controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, i)
                 if not error:
                     inserimento_corretto = True
-
+            # Chiamo il metodo 'controllo_posizionamento_verticale_nave' per controllare se è possibile posizionare la nave
             else:
                 error, coordinate = controllo_posizionamento_verticale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, i)
                 if not error:
                     inserimento_corretto = True
+
+            # Chiamo il metodo 'stampa_campo' per visualizzare il campo di gioco
             stampa_campo(campo, righe, colonne)
+
+            # Creo una condizione per la quale l'errore non può verificarsi più di tre volte
             if not inserimento_corretto:
                 prove += 1
                 if prove > 3:
@@ -47,6 +58,7 @@ def crea_campo(righe, colonne, tipo_lista):
                           "campo\033[0m")
                     sys.exit()
 
+        # Creo l'istanza della nave corrispondente, in base al valore di 'i'
         if i == 5:
             nave = tipo_nave.Portaerei(orientamento, colonna_partenza, riga_partenza, coordinate)
         elif i == 4:
@@ -57,17 +69,25 @@ def crea_campo(righe, colonne, tipo_lista):
             nave = tipo_nave.Cacciatorpediniere(orientamento, colonna_partenza, riga_partenza, coordinate)
         elif i == 1:
             nave = tipo_nave.Sommergibile(orientamento, colonna_partenza, riga_partenza, coordinate)
+        # Aggiungo l'istanza della nave alla lista 'lista_navi'
         lista_navi.append(nave)
     return campo, lista_navi
+# Metodo che restituisce il campo di gioco con la lista delle navi
 
 
+# Metodo che stampa il campo di gioco rappresentato dalla matrice 'campo_gioco' con le dimensione specificate da 'righe' e 'colonne'
 def stampa_campo(campo_gioco, righe, colonne):
+    # Stampo l'intestazione del campo che va da 1 a 'colonne'
+    # Tramite la funzione 'join' concateno gli elementi di una lista in una stringa separata da spazi
     print("\n  " + " ".join(str(x) for x in range(1, colonne + 1)))
+    # Itero su ogni riga del campo per stampare la riga corrispondente
     for r in range(righe):
         print(str(r + 1) + " " + " ".join(str(c) for c in campo_gioco[r]))
+    # Stampo riga vuota per migliorare la leggibilità del campo
     print()
 
 
+# Metodo che verifica se è possibile posizionare una nave in modo orizzontale sul campo di gioco
 def controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, lunghezza):
     error = False
     if colonna_partenza + lunghezza - 1 <= colonne:
@@ -115,6 +135,7 @@ def controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_parten
     return error, None
 
 
+# Metodo che verifica se è possibile posizionare una nave in modo verticale sul campo di gioco
 def controllo_posizionamento_verticale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, lunghezza):
     error = False
     if riga_partenza + lunghezza - 1 <= righe:
