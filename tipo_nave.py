@@ -8,13 +8,7 @@ class Nave:
         self.riga_partenza = riga_partenza  # un intero che rappresenta la riga di partenza della nave sul campo di gioco
         # Tengo traccia del numero di volte che una nave viene colpita
         self.colpita = 0
-
-        # Una lista che rappresentano la posizione delle celle occupate dalla nave
-        if coordinate is None:
-            # Se non vengono fornite, viene inizializzata come una lista vuota
-            self.coordinate = []
-        else:
-            self.coordinate = coordinate
+        self.coordinate = coordinate
 
     # Metodo che controlla se la nave è affondata
     def nave_affondata(self):
