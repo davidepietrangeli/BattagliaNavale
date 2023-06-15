@@ -49,8 +49,10 @@ def scegli_controlla_punto_sparo(righe, colonne, campo_battaglia):
     error = True
     while error:
         try:
-            riga_sparo = int(input("Inserisci la riga dove sparare:\n"))
-            colonna_sparo = int(input("Inserisci la colonna dove sparare:\n"))
+            # Inserimento di riga e colonna che associo all'attributo 'input_val'
+            input_val = input(f'\nInserisci riga e colonna dove sparare (es: 3 1): ')
+            # Funzione 'map' che mi separa i due valori di 'input_val' e me li salva nell'attributo 'riga_partenza' e 'colonna_partenza'
+            riga_sparo, colonna_sparo = map(int, input_val.split())
             # Verifico che il punto di sparo è interno al campo di gioco chiamando la funzione 'controlla_punto_partenza'
             if not (controlla_punto_partenza(righe, colonne, riga_sparo, colonna_sparo)):
                 print("\u001b[31mIl punto non è dentro il campo, riprova!\033[0m")
