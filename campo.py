@@ -21,8 +21,10 @@ def crea_campo(righe, colonne, tipo_lista):
         # Gestisco gli eventuali errori
         while not inserimento_corretto:
             try:
-                riga_partenza = int(input(f'\nInserisci riga. Un numero da 1 a {righe}: '))
-                colonna_partenza = int(input(f'\nInserisci colonna. Un numero da 1 a {colonne}: '))
+                # Inserimento di riga e colonna che associo all'attributo 'input_val'
+                input_val = input(f'\nInserisci riga e colonna (es. 1 2): ')
+                # Funzione 'map' che mi separa i due valori di 'input_val' e me li salva nell'attributo 'riga_partenza' e 'colonna_partenza'
+                riga_partenza, colonna_partenza = map(int, input_val.split())
             except ValueError:
                 print(f'\u001b[31m\nRiga e/o colonna non valida, riprova ancora!\033[0m')
                 continue
