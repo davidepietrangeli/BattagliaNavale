@@ -1,6 +1,6 @@
 # Metodo che controlla se la stringa 'orientamento' specificata è valida
 def controllo_orientamento(orientamento):
-    if orientamento == 'orizzontale' or orientamento == 'verticale':
+    if orientamento == 'o' or orientamento == 'v':
         return True
     else:
         return False

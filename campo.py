@@ -28,7 +28,7 @@ def crea_campo(righe, colonne, tipo_lista):
             if not utile.controlla_punto_partenza(righe, colonne, riga_partenza, colonna_partenza):
                 print('\u001b[31m\nErrore! Il punto di partenza dato non è valido. Prova ancora!\033[0m')
                 continue
-            orientamento = input('\nInserisci orientamento. Deve essere orizzontale o verticale: \033[0m')
+            orientamento = input('\nInserisci orientamento. Deve essere ''o'' per orizzontale o ''v'' per verticale: \033[0m')
             if not utile.controllo_orientamento(orientamento):
                 print(
                     '\u001b[31m\nErrore! Orientamento dato non valido. Prova ancora ponendo attenzione sulla correttezza lessicale'
@@ -36,7 +36,7 @@ def crea_campo(righe, colonne, tipo_lista):
                 continue
 
             # Chiamo il metodo 'controllo_posizionamento_orizzontale_nave' per controllare se è possibile posizionare la nave
-            if orientamento == 'orizzontale':
+            if orientamento == 'o':
                 error, coordinate = controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, i)
                 if not error:
                     inserimento_corretto = True
