@@ -5,13 +5,14 @@ import tipo_nave
 import utile
 
 
-# Metodo che crea il campo di gioco e svolge il posizionamento delle navi su di esso
+# Funzione che crea il campo di gioco e svolge il posizionamento delle navi su di esso
+# Restituisce il campo di gioco con la lista delle navi
 def crea_campo(righe, colonne, tipo_lista):
     # Creo il campo di gioco come una matrice di righe x colonne inizializzata con zeri
     campo = [[0] * colonne for _ in range(righe)]
     # Creo lista vuota che conterrà le istanze delle navi posizionate
     lista_navi = []
-    # Per ogni valore 'i' in 'tipo_lista' il metodo richiede all'utente l'inserimento delle coordinate e dell'orientamento
+    # Per ogni valore 'i' in 'tipo_lista' la funzione richiede all'utente l'inserimento delle coordinate e dell'orientamento
     for i in tipo_lista:
         # Stampo un messaggio all'utente specifico per il tipo di nave
         utile.messaggio_utente(i)
@@ -35,18 +36,18 @@ def crea_campo(righe, colonne, tipo_lista):
                     'la tua scelta\033[0m')
                 continue
 
-            # Chiamo il metodo 'controllo_posizionamento_orizzontale_nave' per controllare se è possibile posizionare la nave
+            # Chiamo la funzione 'controllo_posizionamento_orizzontale_nave' per controllare se è possibile posizionare la nave
             if orientamento == 'o':
                 error, coordinate = controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, i)
                 if not error:
                     inserimento_corretto = True
-            # Chiamo il metodo 'controllo_posizionamento_verticale_nave' per controllare se è possibile posizionare la nave
+            # Chiamo la funzione 'controllo_posizionamento_verticale_nave' per controllare se è possibile posizionare la nave
             else:
                 error, coordinate = controllo_posizionamento_verticale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, i)
                 if not error:
                     inserimento_corretto = True
 
-            # Chiamo il metodo 'stampa_campo' per visualizzare il campo di gioco
+            # Chiamo la funzione 'stampa_campo' per visualizzare il campo di gioco
             stampa_campo(campo, righe, colonne)
 
             # Creo una condizione per la quale l'errore non può verificarsi più di tre volte
@@ -72,7 +73,6 @@ def crea_campo(righe, colonne, tipo_lista):
         # Aggiungo l'istanza della nave alla lista 'lista_navi'
         lista_navi.append(nave)
     return campo, lista_navi
-# Metodo che restituisce il campo di gioco con la lista delle navi
 
 
 # Metodo che stampa il campo di gioco rappresentato dalla matrice 'campo_gioco' con le dimensione specificate da 'righe' e 'colonne'
@@ -87,7 +87,7 @@ def stampa_campo(campo_gioco, righe, colonne):
     print()
 
 
-# Metodo che verifica se è possibile posizionare una nave in modo orizzontale sul campo di gioco
+# Funzione che verifica se è possibile posizionare una nave in modo orizzontale sul campo di gioco
 def controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, lunghezza):
     error = False
     if colonna_partenza + lunghezza - 1 <= colonne:
@@ -135,7 +135,7 @@ def controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_parten
     return error, None
 
 
-# Metodo che verifica se è possibile posizionare una nave in modo verticale sul campo di gioco
+# Funzione che verifica se è possibile posizionare una nave in modo verticale sul campo di gioco
 def controllo_posizionamento_verticale_nave(righe, colonne, campo, riga_partenza, colonna_partenza, lunghezza):
     error = False
     if riga_partenza + lunghezza - 1 <= righe:
