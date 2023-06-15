@@ -12,7 +12,8 @@ import utile
 #   'campo_battaglia': il campo, in forma matriciale, in cui si svolge il gioco
 #   'giocatore': l'identificatore del giocatore che sta effettuando lo sparo
 #   'fine_gioco': una variabile booleana che indica se il gioco è terminato
-# Metodo che permette la funzione di sparo per un giocatore
+# Funzione che permette per il giocatore di sparare un colpo
+# Restituisce una tupla sull'esito del colpo, se il gioco è terminato e l'identificazione del giocatore corrente
 def sparo(lista_navi, righe, colonne, campo_battaglia, giocatore, fine_gioco):
     colpo = False
     # Stampo il campo di battaglia utilizzando il metodo 'stampa_campo' del modulo 'campo' con il campo di battaglia e le dimensioni fornite
@@ -41,7 +42,6 @@ def sparo(lista_navi, righe, colonne, campo_battaglia, giocatore, fine_gioco):
         # Segno il punto nel campo di battaglia impostando l'elemento corrispondente a 'O'
         campo_battaglia[riga_sparo - 1][colonna_sparo - 1] = 'O'
     return colpo, fine_gioco, giocatore
-# Metodo che restituisce una tupla sull'esito del colpo, se il gioco è terminato e l'identificazione del giocatore corrente
 
 
 # Parametri:
@@ -49,7 +49,7 @@ def sparo(lista_navi, righe, colonne, campo_battaglia, giocatore, fine_gioco):
 #   'righe', 'colonne': il numero di righe e colonne del campo di battaglia
 #   'opzioni': la variabile opzionale di gioco che può essere o 1 o 0
 #   'campo_battaglia1', 'campo_battaglia2': i campi di battaglia del giocatore 1 e 2
-# Metodo che gestisce l'inizio di gioco e l'iterazione dei turni tra i due giocatori
+# Funzione che gestisce l'inizio di gioco e l'iterazione dei turni tra i due giocatori
 def inizio_gioco(lista_navi1, lista_navi2, righe, colonne, opzioni, campo_battaglia1, campo_battaglia2):
     print("\n\n\n\n\n\nGiocatore 1 inizia il gioco!")
     # Chiamo il metodo 'sparo' con i parametri corrispondenti per consentire al Giocatore 1 di effettuare un colpo sul campo di battaglia del Giocatore 2
@@ -62,14 +62,15 @@ def inizio_gioco(lista_navi1, lista_navi2, righe, colonne, opzioni, campo_battag
 
 
 # Parametri:
-#   'colpo': variabile booleana che indica se è stato effettuato un colpo
+#   'colpo': parametro che rappresenta l'esito del colpo sparato
 #   'giocatore': identificatore del giocatore corrente
 #   'lista_navi1, 'lista_navi2': le liste che rappresentano le navi del giocatore 1 e 2
 #   'righe', 'colonne': il numero di righe e colonne del campo di battaglia
 #   'opzioni': la variabile opzionale di gioco che può essere o 1 o 0
 #   'campo_battaglia1', 'campo_battaglia2': i campi di battaglia del giocatore 1 e 2
-#   'fine_gioco': una variabile booleana che indica se il gioco è terminato
-# Metodo che gestisce il cambio turno tra i giocatori
+#   'fine_gioco': una variabile booleana impostata a False, che viene passata True solo quando vi è la vittoria di un giocatore
+# Funzione che gestisce il cambio turno tra i giocatori
+# Restituisce una tupla sull'esito del colpo, se il gioco è terminato e l'identificazione del giocatore corrente
 def cambio_giocatore(colpo, giocatore, lista_navi1, lista_navi2, righe, colonne, opzioni, campo_battaglia1, campo_battaglia2, fine_gioco):
     if giocatore == 1:
         if colpo and opzioni == 0:
@@ -93,12 +94,13 @@ def cambio_giocatore(colpo, giocatore, lista_navi1, lista_navi2, righe, colonne,
             #  Chiamo il metodo 'sparo' per consentire al giocatore 1 di effettuare un colpo
             colpo, fine_gioco, giocatore = sparo(lista_navi2, righe, colonne, campo_battaglia2, giocatore, fine_gioco)
     return colpo, fine_gioco, giocatore
-# Metodo che restituisce una tupla sull'esito del colpo, se il gioco è terminato e l'identificazione del giocatore corrente
 
 
 # Parametri:
 #   'lista_navi': una lista che rappresenta le navi presenti nel gioco
-# Metodo che sancisce la vittoria di un giocatore
+# Funzione che sancisce la vittoria di un giocatore
+# Restituisce il valore negato di 'viva'
+# Se tutte le navi sono affondate, 'viva = False' e quindi il metodo restituirà 'True' che indicherà la vittoria
 def vittoria(lista_navi):
     j = 0
     viva = False
@@ -109,5 +111,3 @@ def vittoria(lista_navi):
             viva = True
         j = j + 1
     return not viva
-# Metodo che restituisce il valore negato di 'viva'
-# Se tutte le navi sono affondate, 'viva = False' e quindi il metodo restituirà 'True' che indicherà la vittoria

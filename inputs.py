@@ -2,7 +2,7 @@ import argparse
 import sys
 
 
-# Metodo che crea l'oggetto 'ArgumentParser' per gestire gli argomenti della riga di comando
+# Funzione che crea l'oggetto 'ArgumentParser' per gestire gli argomenti della riga di comando
 def inizializza_parser():
     parser = argparse.ArgumentParser()
 
@@ -55,7 +55,7 @@ def inizializza_parser():
     return parser.parse_args()
 
 
-# Metodo che controlla la validità degli argomenti
+# Funzione che controlla la validità degli argomenti
 def controllo_parser(args):
     try:
         controllo_arguments(args)
@@ -64,7 +64,7 @@ def controllo_parser(args):
         sys.exit()
 
 
-# Metodo che controlla la validità degli argomenti passati, verificando che rientrino in dei range o soddisfino determinate condizioni
+# Funzione che controlla la validità degli argomenti passati, verificando che rientrino in dei range o soddisfino determinate condizioni
 def controllo_arguments(args):
     if not 0 < args.righe < 100:
         print('\u001b[31mNumero non valido diInvalid number of rows\033[0m')

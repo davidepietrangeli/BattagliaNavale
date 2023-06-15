@@ -1,12 +1,12 @@
-# Metodo che controlla se la stringa 'orientamento' specificata è valida
+# Funzione che controlla se la stringa 'orientamento' specificata è valida
 def controllo_orientamento(orientamento):
-    if orientamento == 'orizzontale' or orientamento == 'verticale':
+    if orientamento == 'o' or orientamento == 'v':
         return True
     else:
         return False
 
 
-# Metodo che verifica se un punto di partenza specificato è valido all'interno di una griglia di dimensioni date
+# Funzione che verifica se un punto di partenza specificato è valido all'interno di una griglia di dimensioni date
 def controlla_punto_partenza(righe, colonne, riga_partenza, colonna_partenza):
     if riga_partenza <= righe and colonna_partenza <= colonne:
         return True
@@ -15,7 +15,8 @@ def controlla_punto_partenza(righe, colonne, riga_partenza, colonna_partenza):
 
 
 # Parametri: il numero di navi desiderato per ogni tipologia
-# Metodo che sfrutta un ciclo while per aggiungere i tipi di nave alla lista 'tipo_lista'
+# Funzione che sfrutta un ciclo while per aggiungere i tipi di nave alla lista 'tipo_lista'
+# Restituisco la lista 'tipo_lista' contenente i tipi di nave corrispondenti alle quantità specificate
 def crea_nave_tipo_lista(portaerei, corazzata, sottomarino, cacciatorpediniere, sommergibile):
     tipo_lista = []
     contatore = 0
@@ -40,17 +41,17 @@ def crea_nave_tipo_lista(portaerei, corazzata, sottomarino, cacciatorpediniere, 
         tipo_lista.append(nuovo)
         contatore += 1
     return tipo_lista
-# Restituisco la lista 'tipo_lista' contenente i tipi di nave corrispondenti alle quantità specificate
 
 
-# Metodo che permette all'utente di inserire la riga e la colonna dove si desidera sparare all'interno del campo di battaglia
+# Funzione che permette all'utente di inserire la riga e la colonna dove si desidera sparare all'interno del campo di battaglia
+# Funzione che mi restituisce una tupla contenente le coordinate di sparo
 def scegli_controlla_punto_sparo(righe, colonne, campo_battaglia):
     error = True
     while error:
         try:
             riga_sparo = int(input("Inserisci la riga dove sparare:\n"))
             colonna_sparo = int(input("Inserisci la colonna dove sparare:\n"))
-            # Verifico che il punto di sparo è interno al campo di gioco chiamando il metodo 'controlla_punto_partenza'
+            # Verifico che il punto di sparo è interno al campo di gioco chiamando la funzione 'controlla_punto_partenza'
             if not (controlla_punto_partenza(righe, colonne, riga_sparo, colonna_sparo)):
                 print("\u001b[31mIl punto non è dentro il campo, riprova!\033[0m")
             # Controllo se il carattere in quel punto del campo è diverso da '-'
@@ -61,10 +62,9 @@ def scegli_controlla_punto_sparo(righe, colonne, campo_battaglia):
         except ValueError:
             print("\u001b[31mInserimento non valido, per favore riprova!\033[0m")
     return riga_sparo, colonna_sparo
-# Metodo che mi restituisce una tupla contenente le coordinate di sparo
 
 
-# Metodo che stampa un messaggio specifico in base al valore dell'argomento 'i'
+# Funzione che stampa un messaggio specifico in base al valore dell'argomento 'i'
 def messaggio_utente(i):
     if i == 5:
         print(f'\nFornisci coordinate ed orientamento della nave portaerei che è lunga 5!')
