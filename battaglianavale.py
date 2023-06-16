@@ -16,13 +16,13 @@ inputs.controllo_parser(args)
 tipo_lista = utile.crea_nave_tipo_lista(args.portaerei, args.corazzata, args.sottomarino, args.cacciatorpediniere, args.sommergibile)
 
 #  Chiamo la funzione 'crea_campo()' del modulo 'campo' per creare il campo di gioco per il giocatore 1
-campo_giocatore1, lista_navi1 = campo.crea_campo(args.righe, args.colonne, tipo_lista)
+lista_navi1 = campo.crea_campo(args.righe, args.colonne, tipo_lista)
 input('\n\nPremi INVIO e passa il computer al prossimo giocatore:')
 # Eseguo il comando 'cls' per pulire il terminale in modo da nascondere il posizionamento delle navi
 os.system('cls' if os.name == 'nt' else 'clear')
 
 #  Chiamo la funzione 'crea_campo()' del modulo 'campo' per creare il campo di gioco per il giocatore 1
-campo_giocatore2, lista_navi2 = campo.crea_campo(args.righe, args.colonne, tipo_lista)
+lista_navi2 = campo.crea_campo(args.righe, args.colonne, tipo_lista)
 input('\n\nPremi INVIO e passa il computer al prossimo giocatore per iniziare il gioco:')
 # Eseguo il comando 'cls' per pulire il terminale in modo da nascondere il posizionamento delle navi
 os.system('cls' if os.name == 'nt' else 'clear')

@@ -74,7 +74,7 @@ def crea_campo(righe, colonne, tipo_lista):
             nave = tipo_nave.Sommergibile(orientamento, colonna_partenza, riga_partenza, coordinate)
         # Aggiungo l'istanza della nave alla lista 'lista_navi'
         lista_navi.append(nave)
-    return campo, lista_navi
+    return lista_navi
 
 
 # Metodo che stampa il campo di gioco rappresentato dalla matrice 'campo_gioco' con le dimensione specificate da 'righe' e 'colonne'
