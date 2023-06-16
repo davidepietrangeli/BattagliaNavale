@@ -1,7 +1,7 @@
 # Definizione della Classe 'Nave' che rappresenta una nave all'interno del gioco
 class Nave:
     # Creo il costruttore con i relativi parametri:
-    def __init__(self, lunghezza, orientamento, colonna_partenza, riga_partenza, coordinate=None):
+    def __init__(self, lunghezza, orientamento, colonna_partenza, riga_partenza, coordinate):
         self.lunghezza = lunghezza  # un intero che rappresenta il numero di celle occupate dalla nave sul campo di gioco
         self.orientamento = orientamento  # una stringa che indica l'orientamento della nave che può essere "orizzontale" o "verticale"
         self.colonna_partenza = colonna_partenza  # un intero che rappresenta la colonna di partenza della nave sul campo di gioco
