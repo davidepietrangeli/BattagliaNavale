@@ -1,3 +1,10 @@
+from enum import Enum
+
+
+class Campo(Enum):
+    VUOTO = '-'
+
+
 # Funzione che controlla se la stringa 'orientamento' specificata è valida
 def controllo_orientamento(orientamento):
     if orientamento == 'o' or orientamento == 'v':
@@ -57,7 +64,7 @@ def scegli_controlla_punto_sparo(righe, colonne, campo_battaglia):
             if not (controlla_punto_partenza(righe, colonne, riga_sparo, colonna_sparo)):
                 print("\u001b[31mIl punto non è dentro il campo, riprova!\033[0m")
             # Controllo se il carattere in quel punto del campo è diverso da '-'
-            elif not (campo_battaglia[riga_sparo - 1][colonna_sparo - 1] == '-'):
+            elif not (campo_battaglia[riga_sparo - 1][colonna_sparo - 1] == Campo.VUOTO.value):
                 print("\u001b[31mHai già sparato in questo punto, riprova!\033[0m")
             else:
                 error = False
