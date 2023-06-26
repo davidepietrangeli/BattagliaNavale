@@ -82,4 +82,3 @@ def controllo_arguments(args):
         raise ValueError('\u001b[31mNumero non valido di sommergibile\033[0m')
     if not (args.opzioni == 0 or args.opzioni == 1):
         raise ValueError('\u001b[31mInput "opzioni" non valido. Deve essere o 0 o 1\033[0m')
-    
