@@ -59,34 +59,27 @@ def inizializza_parser():
 def controllo_parser(args):
     try:
         controllo_arguments(args)
-    # Se viene sollevata un'eccezione 'ValueError' il programma viene interrotto
-    except ValueError:
+    except ValueError as e:
+        print(str(e))
         sys.exit()
 
 
 # Funzione che controlla la validità degli argomenti passati, verificando che rientrino in dei range o soddisfino determinate condizioni
 def controllo_arguments(args):
     if not 0 < args.righe < 100:
-        print('\u001b[31mNumero non valido diInvalid number of rows\033[0m')
-        raise ValueError
+        raise ValueError('\u001b[31mNumero non valido di righe\033[0m')
     if not 0 < args.colonne < 100:
-        print('\u001b[31mNumero non valido di colonne\033[0m')
-        raise ValueError
+        raise ValueError('\u001b[31mNumero non valido di colonne\033[0m')
     if not 0 <= args.portaerei <= 2:
-        print('\u001b[31mNumero non valido di portaerei\033[0m')
-        raise ValueError
+        raise ValueError('\u001b[31mNumero non valido di portaerei\033[0m')
     if not 0 <= args.corazzata <= 3:
-        print('\u001b[31mNumero non valido di corazzata\033[0m')
-        raise ValueError
+        raise ValueError('\u001b[31mNumero non valido di corazzata\033[0m')
     if not 0 <= args.sottomarino <= 4:
-        print('\u001b[31mNumero non valido di sottomarino\033[0m')
-        raise ValueError
+        raise ValueError('\u001b[31mNumero non valido di sottomarino\033[0m')
     if not 0 <= args.cacciatorpediniere <= 5:
-        print('\u001b[31mNumero non valido di cacciatorpediniere\033[0m')
-        raise ValueError
+        raise ValueError('\u001b[31mNumero non valido di cacciatorpediniere\033[0m')
     if not 0 <= args.sommergibile <= 6:
-        print('\u001b[31mNumero non valido di sommergibile\033[0m')
-        raise ValueError
+        raise ValueError('\u001b[31mNumero non valido di sommergibile\033[0m')
     if not (args.opzioni == 0 or args.opzioni == 1):
-        print('\u001b[31mInput "opzioni" non valido. Deve essere o 0 o 1\033[0m')
-        raise ValueError
+        raise ValueError('\u001b[31mInput "opzioni" non valido. Deve essere o 0 o 1\033[0m')
+    
