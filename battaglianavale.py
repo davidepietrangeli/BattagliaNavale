@@ -33,6 +33,7 @@ os.system('cls' if os.name == 'nt' else 'clear')
 campo_battaglia1 = [[Campo.VUOTO.value] * args.colonne for x in range(args.righe)]
 # Questa lista rappresenta il campo di battaglia del giocatore 2
 campo_battaglia2 = [[Campo.VUOTO.value] * args.colonne for x in range(args.righe)]
+
 # Chiamo la funzione 'inizio_gioco()' del modulo 'giocatore', passando i parametri necessari per avviare il gioco
 # Questa funzione gestirà il flusso del gioco e le azioni dei giocatori
 giocatore.inizio_gioco(lista_navi1, lista_navi2, args.righe, args.colonne, args.opzioni, campo_battaglia1, campo_battaglia2)
