@@ -3,6 +3,7 @@ from enum import Enum
 
 class Campo(Enum):
     VUOTO = '-'
+    NAVE = '1'
 
 
 # Funzione che controlla se la stringa 'orientamento' specificata è valida

@@ -3,6 +3,7 @@ import sys
 # Import dei file contenuti nel progetto globale
 import tipo_nave
 import utile
+from utile import Campo
 
 
 # Funzione che crea il campo di gioco e svolge il posizionamento delle navi su di esso
@@ -107,42 +108,42 @@ def controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_parten
         # Eseguo ciclo while che continua fintanto che 'i' è minore della condizione impostata precedentemente e non si è verificato nessun errore
         while i < colonna_partenza + lunghezza - 1 and not error:
             # Verifico se la posizione corrente del campo nella riga 'riga_partenza - 1' e nella colonna 'i' è uguale a 1
-            if campo[riga_partenza - 1][i] == 1:
+            if campo[riga_partenza - 1][i] == Campo.NAVE.value:
                 print("\u001b[31m\n\nErrore! Posizione già occupata da una nave\033[0m")
                 error = True
                 continue
             # Eseguo controllo per verificare che la 'riga_partenza' è uguale a 1
             if riga_partenza == 1:
                 # Eseguo controllo per verificare se la posizione corrente nella riga 'riga_partenza' nella colonna 'i' è uguale a 1
-                if campo[riga_partenza][i] == 1:
+                if campo[riga_partenza][i] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
             # Eseguo un controllo per verificare se 'riga_partenza' è uguale al numero di righe nel campo
             if riga_partenza == righe:
                 # Eseguo controllo per verificare se la posizione corrente nella riga 'riga_partenza - 2' e nella colonna 'i' è uguale a 1
-                if campo[riga_partenza - 2][i] == 1:
+                if campo[riga_partenza - 2][i] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
             # Eseguo un controllo per verificare se 'riga_partenza' non è né 1 né uguale al numero di righe nel campo
             if 1 < riga_partenza < righe:
                 # Verifico se la posizione corrente nella riga 'riga_partenza' e nella colonna 'i' è uguale a 1 oppure se la posizione nella riga 'riga_partenza - 2' e nella colonna 'i' è uguale a 1
-                if campo[riga_partenza][i] == 1 or campo[riga_partenza - 2][i] == 1:
+                if campo[riga_partenza][i] == Campo.NAVE.value or campo[riga_partenza - 2][i] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
             # Eseguo un controllo per verificare se 'colonna_partenza' non è uguale a 1
             if colonna_partenza != 1:
                 # Verifico se la posizione nella riga 'riga_partenza - 1' e nella colonna 'colonna_partenza - 2' è uguale a 1
-                if campo[riga_partenza - 1][colonna_partenza - 2] == 1:
+                if campo[riga_partenza - 1][colonna_partenza - 2] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
             # Eseguo un controllo per verificare se 'colonna_partenza + lunghezza - 2' non è uguale all'ultima colonna '(colonne - 1)' nel campo
             if colonna_partenza + lunghezza - 2 != colonne - 1:
                 # Verifico se la posizione nella riga 'riga_partenza - 1' e nella colonna 'colonna_partenza + lunghezza - 1' è uguale a 1
-                if campo[riga_partenza - 1][colonna_partenza + lunghezza - 1] == 1:
+                if campo[riga_partenza - 1][colonna_partenza + lunghezza - 1] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
@@ -154,7 +155,7 @@ def controllo_posizionamento_orizzontale_nave(righe, colonne, campo, riga_parten
             coordinate = []
             for i in range(colonna_partenza - 1, colonna_partenza + lunghezza - 1):
                 # Imposto il valore della posizione corrispondente nel campo a 1 per indicare la presenza di una nave
-                campo[riga_partenza - 1][i] = 1
+                campo[riga_partenza - 1][i] = Campo.NAVE.value
                 # Aggiungo le coordinate alla lista
                 coordinate.append([riga_partenza, i + 1])
             return error, coordinate
@@ -182,42 +183,42 @@ def controllo_posizionamento_verticale_nave(righe, colonne, campo, riga_partenza
         # Eseguo ciclo while che continua fintanto che 'i' è minore della condizione impostata precedentemente e non si è verificato nessun errore
         while i < riga_partenza + lunghezza - 1 and not error:
             # Verifico se la posizione corrente del campo nella riga 'i' e nella colonna 'colonna_partenza - 1' è uguale a 1
-            if campo[i][colonna_partenza - 1] == 1:
+            if campo[i][colonna_partenza - 1] == Campo.NAVE.value:
                 print("\u001b[31m\n\nErrore! Posizione già occupata da una nave\033[0m")
                 error = True
                 continue
             # Eseguo controllo per verificare che la 'colonna_partenza' è uguale a 1
             if colonna_partenza == 1:
                 # Eseguo controllo per verificare se la posizione corrente nella riga 'i' nella colonna 'colonna_partenza' è uguale a 1
-                if campo[i][colonna_partenza] == 1:
+                if campo[i][colonna_partenza] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
             # Eseguo un controllo per verificare se 'colonna_partenza' è uguale al numero di colonne nel campo
             if colonna_partenza == colonne:
                 # Eseguo controllo per verificare se la posizione corrente nella riga 'i' e nella colonna 'colonna_partenza - 2' è uguale a 1
-                if campo[i][colonna_partenza - 2] == 1:
+                if campo[i][colonna_partenza - 2] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
             # Eseguo un controllo per verificare se 'colonna_partenza' non è né 1 né uguale al numero di colonne nel campo
             if 1 < colonna_partenza < colonne:
                 # Verifico se la posizione corrente nella riga 'i' e nella colonna 'colonna_partenza' è uguale a 1 oppure se la posizione nella riga 'i' e nella colonna 'colonna_partenza - 2' è uguale a 1
-                if campo[i][colonna_partenza] == 1 or campo[i][colonna_partenza - 2] == 1:
+                if campo[i][colonna_partenza] == Campo.NAVE.value or campo[i][colonna_partenza - 2] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
             # Eseguo un controllo per verificare se 'riga_partenza' non è uguale a 1
             if riga_partenza != 1:
                 # Verifico se la posizione nella riga 'riga_partenza - 2' e nella colonna 'colonna_partenza - 1' è uguale a 1
-                if campo[riga_partenza - 2][colonna_partenza - 1] == 1:
+                if campo[riga_partenza - 2][colonna_partenza - 1] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
             # Eseguo un controllo per verificare se 'riga_partenza + lunghezza - 2' non è uguale all'ultima riga '(righe - 1)' nel campo
             if riga_partenza + lunghezza - 2 != righe - 1:
                 # Verifico se la posizione nella riga 'riga_partenza + lunghezza - 1' e nella colonna 'colonna_partenza - 1' è uguale a 1
-                if campo[riga_partenza + lunghezza - 1][colonna_partenza - 1] == 1:
+                if campo[riga_partenza + lunghezza - 1][colonna_partenza - 1] == Campo.NAVE.value:
                     print("\u001b[31m\n\nErrore! La nave è adiacente\033[0m")
                     error = True
                     continue
@@ -230,7 +231,7 @@ def controllo_posizionamento_verticale_nave(righe, colonne, campo, riga_partenza
             # Eseguo ciclo for nel range dalla riga di partenza diminuita di 1 alla riga di partenza sommata alla lunghezza della nave diminuita di 1
             for i in range(riga_partenza - 1, riga_partenza + lunghezza - 1):
                 # Imposto il valore della posizione corrispondente nel campo a 1 per indicare la presenza di una nave
-                campo[i][colonna_partenza - 1] = 1
+                campo[i][colonna_partenza - 1] = Campo.NAVE.value
                 # Aggiungo le coordinate alla lista
                 coordinate.append([i + 1, colonna_partenza])
             return error, coordinate
