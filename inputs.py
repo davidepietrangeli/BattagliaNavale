@@ -18,31 +18,31 @@ def inizializza_parser():
 
     parser.add_argument("-s1", "--portaerei",
                         help="Numero della nave Portaerei della flotta, se non specificato, uguale a 1. La lunghezza "
-                             "Portaerei è 5.",
+                             "Portaerei è 6.",
                         type=int,
                         default=1)
 
     parser.add_argument("-s2", "--corazzata",
                         help="Numero della nave Corazzata della flotta, se non specificato, uguale a 1. La lunghezza "
-                             "Corazzata è 4.",
+                             "Corazzata è 5.",
                         type=int,
                         default=1)
 
     parser.add_argument("-s3", "--sottomarino",
                         help="Numero della nave Sottomarino della flotta, se non specificato, uguale a 1. La lunghezza "
-                             "Sottomarino è 3.",
+                             "Sottomarino è 4.",
                         type=int,
                         default=1)
 
     parser.add_argument("-s4", "--cacciatorpediniere",
                         help="Numero della nave Cacciatorpediniere della flotta, se non specificato, uguale a 1. La lunghezza "
-                             "Cacciatorpediniere è 2.",
+                             "Cacciatorpediniere è 3.",
                         type=int,
                         default=1)
 
     parser.add_argument("-s5", "--sommergibile",
                         help="Numero della nave Sommergibile della flotta, se non specificato, uguale a 1. La lunghezza "
-                             "Sommergibile è 1.",
+                             "Sommergibile è 2.",
                         type=int,
                         default=1)
 

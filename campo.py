@@ -62,15 +62,15 @@ def crea_campo(righe, colonne, tipo_lista):
                     sys.exit()
 
         # Creo l'istanza della nave corrispondente, in base al valore di 'i'
-        if i == 5:
+        if i == 6:
             nave = tipo_nave.Portaerei(orientamento, colonna_partenza, riga_partenza, coordinate)
-        elif i == 4:
+        elif i == 5:
             nave = tipo_nave.Corazzata(orientamento, colonna_partenza, riga_partenza, coordinate)
-        elif i == 3:
+        elif i == 4:
             nave = tipo_nave.Sottomarino(orientamento, colonna_partenza, riga_partenza, coordinate)
-        elif i == 2:
+        elif i == 3:
             nave = tipo_nave.Cacciatorpediniere(orientamento, colonna_partenza, riga_partenza, coordinate)
-        elif i == 1:
+        elif i == 2:
             nave = tipo_nave.Sommergibile(orientamento, colonna_partenza, riga_partenza, coordinate)
         # Aggiungo l'istanza della nave alla lista 'lista_navi'
         lista_navi.append(nave)
