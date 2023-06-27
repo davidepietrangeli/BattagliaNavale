@@ -6,22 +6,6 @@ class Campo(Enum):
     NAVE = '1'
 
 
-# Funzione che controlla se la stringa 'orientamento' specificata è valida
-def controllo_orientamento(orientamento):
-    if orientamento == 'o' or orientamento == 'v':
-        return True
-    else:
-        return False
-
-
-# Funzione che verifica se un punto di partenza specificato è valido all'interno di una griglia di dimensioni date
-def controlla_punto_partenza(righe, colonne, riga_partenza, colonna_partenza):
-    if riga_partenza <= righe and colonna_partenza <= colonne:
-        return True
-    else:
-        return False
-
-
 # Parametri: il numero di navi desiderato per ogni tipologia
 # Funzione che sfrutta un ciclo while per aggiungere i tipi di nave alla lista 'tipo_lista'
 # Restituisco la lista 'tipo_lista' contenente i tipi di nave corrispondenti alle quantità specificate
@@ -49,6 +33,22 @@ def crea_nave_tipo_lista(portaerei, corazzata, sottomarino, cacciatorpediniere, 
         tipo_lista.append(nuovo)
         contatore += 1
     return tipo_lista
+
+
+# Funzione che controlla se la stringa 'orientamento' specificata è valida
+def controllo_orientamento(orientamento):
+    if orientamento == 'o' or orientamento == 'v':
+        return True
+    else:
+        return False
+
+
+# Funzione che verifica se un punto di partenza specificato è valido all'interno di una griglia di dimensioni date
+def controlla_punto_partenza(righe, colonne, riga_partenza, colonna_partenza):
+    if riga_partenza <= righe and colonna_partenza <= colonne:
+        return True
+    else:
+        return False
 
 
 # Funzione che permette all'utente di inserire la riga e la colonna dove si desidera sparare all'interno del campo di battaglia
