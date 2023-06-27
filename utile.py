@@ -28,23 +28,23 @@ def crea_nave_tipo_lista(portaerei, corazzata, sottomarino, cacciatorpediniere, 
     tipo_lista = []
     contatore = 0
     while contatore < portaerei:
-        nuovo = 5
+        nuovo = 6
         tipo_lista.append(nuovo)
         contatore += 1
     while contatore < portaerei + corazzata:
-        nuovo = 4
+        nuovo = 5
         tipo_lista.append(nuovo)
         contatore += 1
     while contatore < portaerei + corazzata + sottomarino:
-        nuovo = 3
+        nuovo = 4
         tipo_lista.append(nuovo)
         contatore += 1
     while contatore < portaerei + corazzata + sottomarino + cacciatorpediniere:
-        nuovo = 2
+        nuovo = 3
         tipo_lista.append(nuovo)
         contatore += 1
     while contatore < portaerei + corazzata + sottomarino + cacciatorpediniere + sommergibile:
-        nuovo = 1
+        nuovo = 2
         tipo_lista.append(nuovo)
         contatore += 1
     return tipo_lista
@@ -75,13 +75,13 @@ def scegli_controlla_punto_sparo(righe, colonne, campo_battaglia):
 
 # Funzione che stampa un messaggio specifico in base al valore dell'argomento 'i'
 def messaggio_utente(i):
-    if i == 5:
-        print(f'\nFornisci coordinate ed orientamento della nave portaerei che è lunga 5!')
+    if i == 6:
+        print(f'\nFornisci coordinate ed orientamento della nave portaerei che è lunga 6!')
+    elif i == 5:
+        print(f'\nFornisci coordinate ed orientamento della nave corazzata che è lunga 5!')
     elif i == 4:
-        print(f'\nFornisci coordinate ed orientamento della nave corazzata che è lunga 4!')
+        print(f'\nFornisci coordinate ed orientamento della nave sottomarino che è lunga 4!')
     elif i == 3:
-        print(f'\nFornisci coordinate ed orientamento della nave sottomarino che è lunga 3!')
+        print(f'\nFornisci coordinate ed orientamento della nave cacciatorpediniere che è lunga 3!')
     elif i == 2:
-        print(f'\nFornisci coordinate ed orientamento della nave cacciatorpediniere che è lunga 2!')
-    elif i == 1:
-        print(f'\nFornisci coordinate ed orientamento della nave sommergibile che è lunga 1!')
+        print(f'\nFornisci coordinate ed orientamento della nave sommergibile che è lunga 2!')

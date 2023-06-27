@@ -47,28 +47,28 @@ class Nave:
 class Portaerei(Nave):
     # Sovrascrivo il costruttore della classe genitore 'Nave' con i parametri della 'Portaerei'
     def __init__(self, orientamento, colonna_partenza, riga_partenza, coordinate):
-        super().__init__(5, orientamento, colonna_partenza, riga_partenza, coordinate)
+        super().__init__(6, orientamento, colonna_partenza, riga_partenza, coordinate)
 
 
 class Corazzata(Nave):
     # Sovrascrivo il costruttore della classe genitore 'Nave' con i parametri della 'Corazzata'
     def __init__(self, orientamento, colonna_partenza, riga_partenza, coordinate):
-        super().__init__(4, orientamento, colonna_partenza, riga_partenza, coordinate)
+        super().__init__(5, orientamento, colonna_partenza, riga_partenza, coordinate)
 
 
 class Sottomarino(Nave):
     # Sovrascrivo il costruttore della classe genitore 'Nave' con i parametri della 'Sottomarino'
     def __init__(self, orientamento, colonna_partenza, riga_partenza, coordinate):
-        super().__init__(3, orientamento, colonna_partenza, riga_partenza, coordinate)
+        super().__init__(4, orientamento, colonna_partenza, riga_partenza, coordinate)
 
 
 class Cacciatorpediniere(Nave):
     # Sovrascrivo il costruttore della classe genitore 'Nave' con i parametri della 'Cacciatorpediniere'
     def __init__(self, orientamento, colonna_partenza, riga_partenza, coordinate):
-        super().__init__(2, orientamento, colonna_partenza, riga_partenza, coordinate)
+        super().__init__(3, orientamento, colonna_partenza, riga_partenza, coordinate)
 
 
 class Sommergibile(Nave):
     # Sovrascrivo il costruttore della classe genitore 'Nave' con i parametri della 'Sommergibile'
     def __init__(self, orientamento, colonna_partenza, riga_partenza, coordinate):
-        super().__init__(1, orientamento, colonna_partenza, riga_partenza, coordinate)
+        super().__init__(2, orientamento, colonna_partenza, riga_partenza, coordinate)
